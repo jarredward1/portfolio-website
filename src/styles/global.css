@@ -6,8 +6,11 @@
 }
 
 html {
+  background: var(--bg-0);
   scroll-behavior: smooth;
   scroll-padding-top: 5.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-2) var(--bg-0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -17,13 +20,43 @@ html {
 }
 
 body {
-  background: var(--bg-0);
+  position: relative;
+  background: transparent;
   color: var(--ink-0);
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Fixed atmosphere layers: blueprint grid + corner vignette, then film grain.
+   Both sit behind all content (html carries the base color). */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    radial-gradient(130% 100% at 50% 0%, transparent 52%, rgba(0, 0, 0, 0.42) 100%),
+    linear-gradient(rgba(244, 241, 234, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 241, 234, 0.03) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    64px 64px,
+    64px 64px;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
 }
 
 ::selection {
@@ -113,4 +146,56 @@ h3 {
 
 .skip-link:focus-visible {
   transform: none;
+}
+
+/* ---------- shared animation + chrome ---------- */
+
+@keyframes breathe {
+  from {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+}
+
+@keyframes aurora {
+  from {
+    transform: translate3d(-4%, -2%, 0) rotate(-5deg) scale(1);
+  }
+
+  to {
+    transform: translate3d(5%, 4%, 0) rotate(6deg) scale(1.08);
+  }
+}
+
+@keyframes cueSlide {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(240%);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-0);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-2);
+  border-radius: 6px;
+  border: 2px solid var(--bg-0);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--line-2);
 }

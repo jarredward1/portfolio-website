@@ -60,7 +60,7 @@ export async function sampleBust(src: string, opts: SampleOptions): Promise<Bust
       const py = (0.5 - y / h) * worldH
       // Relief: brighter areas (shirt/highlights) push slightly forward, with
       // a little jitter so the sheet has organic thickness.
-      const pz = (lum - 0.45) * worldH * opts.depth + (Math.random() - 0.5) * 0.05
+      const pz = (lum - 0.45) * worldH * opts.depth + (Math.random() - 0.5) * 0.02
 
       positions.push(px, py, pz)
 

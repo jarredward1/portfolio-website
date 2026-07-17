@@ -8,7 +8,7 @@ interface BustProps {
 
 /**
  * The 3D signature element. This module pulls in three.js / r3f, so it is
- * lazy-loaded by the hero — keeping three out of the initial (LCP) bundle.
+ * lazy-loaded by the hero, keeping three out of the initial (LCP) bundle.
  */
 export default function Bust({ reduced }: BustProps) {
   const wrapRef = useRef<HTMLDivElement>(null)

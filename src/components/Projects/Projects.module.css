@@ -1,3 +1,26 @@
+.section {
+  position: relative;
+  overflow: clip;
+}
+
+/* Ember wash anchored to the section's upper right. */
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -16rem;
+  width: 46rem;
+  height: 46rem;
+  background: radial-gradient(
+    closest-side,
+    rgba(217, 119, 6, 0.055),
+    rgba(185, 28, 44, 0.025) 55%,
+    transparent 72%
+  );
+  pointer-events: none;
+  animation: breathe 19s ease-in-out infinite alternate;
+}
+
 .grid {
   list-style: none;
   padding: 0;
@@ -54,6 +77,27 @@
   opacity: 1;
 }
 
+/* Oversized ghost index in each card's top-right corner. */
+.index {
+  position: absolute;
+  top: 0.6rem;
+  right: 1rem;
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 900;
+  font-size: 3.6rem;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(244, 241, 234, 0.09);
+  pointer-events: none;
+  user-select: none;
+  transition: -webkit-text-stroke-color 0.25s;
+}
+
+.card:hover .index {
+  -webkit-text-stroke-color: rgba(240, 160, 53, 0.22);
+}
+
 .cardTop {
   display: flex;
   align-items: center;
@@ -64,6 +108,14 @@
 
 .card:hover .cardTop {
   color: var(--amber-hi);
+}
+
+.cardArrow {
+  transition: transform 0.22s var(--ease-out);
+}
+
+.card:hover .cardArrow {
+  transform: translate(3px, -3px);
 }
 
 .name {
@@ -121,6 +173,14 @@
   margin-left: auto;
 }
 
+.metaRow .cardArrow {
+  color: var(--ink-2);
+}
+
+.card:hover .metaRow .cardArrow {
+  color: var(--amber-hi);
+}
+
 .allLink {
   display: inline-flex;
   align-items: center;
@@ -136,6 +196,12 @@
 
 .allLink:hover {
   color: var(--amber-hi);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section::before {
+    animation: none;
+  }
 }
 
 @media (max-width: 680px) {

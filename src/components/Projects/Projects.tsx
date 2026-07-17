@@ -14,8 +14,13 @@ interface Repo {
   language: string | null
 }
 
+const ACRONYMS = new Set(['pci', 'dss', 'grc', 'nist', 'csf', 'iso', 'edr', 'vm', 'it'])
+
 function titleize(name: string): string {
-  return name.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+  return name
+    .split(/[-_]/)
+    .map((w) => (ACRONYMS.has(w.toLowerCase()) ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1)))
+    .join(' ')
 }
 
 function updated(iso: string | null): string | null {
@@ -30,7 +35,7 @@ export default function Projects() {
   const repos = pinned.repos as Repo[]
 
   return (
-    <section id="projects" className="section" aria-labelledby="projects-title">
+    <section id="projects" className={`section ${s.section}`} aria-labelledby="projects-title">
       <div className="container">
         <SectionHeader
           kicker="Selected work"
@@ -50,9 +55,11 @@ export default function Projects() {
               transition={{ duration: 0.5, delay: (i % 2) * 0.06, ease: [0.22, 1, 0.36, 1] }}
             >
               <a className={s.card} href={repo.url} target="_blank" rel="noreferrer">
+                <span className={s.index} aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
                 <div className={s.cardTop}>
                   <GitHubIcon size={18} />
-                  <ArrowUpRight size={16} />
                 </div>
                 <h3 className={s.name}>{titleize(repo.name)}</h3>
                 <p className={s.repoPath}>{repo.name}</p>
@@ -63,6 +70,7 @@ export default function Projects() {
                   {updated(repo.pushedAt) ? (
                     <span className={s.pushed}>Updated {updated(repo.pushedAt)}</span>
                   ) : null}
+                  <ArrowUpRight size={14} className={s.cardArrow} />
                 </div>
               </a>
             </motion.li>

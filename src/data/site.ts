@@ -7,5 +7,5 @@ export const site = {
   githubUser: 'jarredward1',
   location: 'Atlanta metro · Mableton, GA',
   resumePath: '/resume/Jarred-Ward-Resume.pdf',
-  hook: 'Twelve years of command decisions under pressure — now applied to vulnerability management and audit-ready security programs.',
+  hook: 'Twelve years of command decisions under pressure, now applied to vulnerability management and audit-ready security programs.',
 } as const

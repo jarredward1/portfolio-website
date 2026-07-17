@@ -1,13 +1,45 @@
+import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { site } from '../../data/site'
 import { GitHubIcon, LinkedInIcon, ArrowUpRight } from '../ui/Icons'
 import s from './Contact.module.css'
 
+function CopyEmail() {
+  const [copied, setCopied] = useState(false)
+  const timer = useRef<number | undefined>(undefined)
+
+  useEffect(() => () => window.clearTimeout(timer.current), [])
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(site.email)
+      setCopied(true)
+      window.clearTimeout(timer.current)
+      timer.current = window.setTimeout(() => setCopied(false), 1800)
+    } catch {
+      // Clipboard unavailable (permissions/insecure context): quietly no-op,
+      // the mailto link remains the primary path.
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      className={`${s.copy} ${copied ? s.copied : ''}`}
+      onClick={copy}
+      aria-live="polite"
+    >
+      {copied ? 'Copied' : 'Copy'}
+    </button>
+  )
+}
+
 export default function Contact() {
   const reduced = useReducedMotion()
 
   return (
-    <section id="contact" className="section" aria-labelledby="contact-title">
+    <section id="contact" className={`section ${s.section}`} aria-labelledby="contact-title">
+      <div className={s.aurora} aria-hidden="true" />
       <div className="container">
         <motion.div
           className={s.wrap}
@@ -21,14 +53,17 @@ export default function Contact() {
             Open to GRC and vulnerability-management roles.
           </h2>
           <p className={s.sub}>
-            Based in the Atlanta metro. The fastest way to reach me is email — or connect on
+            Based in the Atlanta metro. Email is the fastest way to reach me, or connect on
             LinkedIn.
           </p>
 
-          <a className={s.email} href={`mailto:${site.email}`}>
-            <span className={s.emailText}>{site.email}</span>
-            <ArrowUpRight size={22} />
-          </a>
+          <div className={s.emailRow}>
+            <a className={s.email} href={`mailto:${site.email}`}>
+              <span className={s.emailText}>{site.email}</span>
+              <ArrowUpRight size={22} />
+            </a>
+            <CopyEmail />
+          </div>
 
           <div className={s.socials}>
             <a

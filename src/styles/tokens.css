@@ -1,21 +1,21 @@
 :root {
-  /* Surfaces — warm-tinted charcoal, not blue-gray */
+  /* Surfaces: warm-tinted charcoal, not blue-gray */
   --bg-0: #0d0d0f;
   --bg-1: #141417;
   --bg-2: #1b1b20;
   --line-1: #232329;
   --line-2: #2e2e36;
 
-  /* Ink — warm off-whites */
+  /* Ink: warm off-whites */
   --ink-0: #f4f1ea; /* ~15:1 on bg-0 */
   --ink-1: #a9a49b; /* 7.7:1 */
-  --ink-2: #858076; /* 4.9:1 — minimum tone for small text */
+  --ink-2: #858076; /* 4.9:1, minimum tone for small text */
 
-  /* Accent — crimson never on small text; small accents use amber-hi */
+  /* Accent: crimson never on small text; small accents use amber-hi */
   --crimson: #b91c2c;
   --ember: #cd4a16;
   --amber: #d97706; /* 6:1 on bg-0 */
-  --amber-hi: #f0a035; /* 8.9:1 — small accent text, focus rings */
+  --amber-hi: #f0a035; /* 8.9:1, small accent text, focus rings */
 
   /* The gradient. Budget: primary CTA, email underline, section rules,
      card hover border, bust particles, timeline pivot, favicon tick. */

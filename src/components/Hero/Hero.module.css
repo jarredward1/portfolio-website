@@ -7,21 +7,34 @@
   padding-top: 4.25rem;
 }
 
-/* Bust occupies the right half on desktop; sits behind text on small screens. */
+/* Slow aurora mass drifting behind the bust. */
+.aurora {
+  position: absolute;
+  top: 4%;
+  right: -8%;
+  width: min(54vw, 780px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(185, 28, 44, 0.16),
+    rgba(217, 119, 6, 0.07) 52%,
+    transparent 74%
+  );
+  filter: blur(52px);
+  animation: aurora 26s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* Bust occupies the right half on desktop; sits behind text on small screens.
+   A mask (not an opaque overlay) fades its edges so the page grid shows through. */
 .bustLayer {
   position: absolute;
   inset: 0 0 0 auto;
   width: 58%;
   pointer-events: none;
-}
-
-.bustVignette {
-  position: absolute;
-  inset: 0;
-  /* Fade the bust into the page on its left edge and bottom. */
-  background:
-    linear-gradient(90deg, var(--bg-0) 2%, transparent 42%),
-    linear-gradient(0deg, var(--bg-0) 1%, transparent 26%);
+  -webkit-mask-image: radial-gradient(105% 96% at 70% 42%, #000 50%, transparent 77%);
+  mask-image: radial-gradient(105% 96% at 70% 42%, #000 50%, transparent 77%);
 }
 
 .inner {
@@ -35,8 +48,18 @@
 }
 
 .kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
   color: var(--amber-hi);
   margin-bottom: 1.4rem;
+}
+
+.kickTick {
+  width: 8px;
+  height: 8px;
+  rotate: 45deg;
+  background: var(--grad);
 }
 
 .name {
@@ -143,22 +166,40 @@
   color: var(--ink-2);
 }
 
-.scrollDot {
+.cueTrack {
+  position: relative;
   width: 1px;
-  height: 34px;
-  background: linear-gradient(var(--amber-hi), transparent);
+  height: 36px;
+  background: var(--line-2);
+  overflow: hidden;
+}
+
+.cueFill {
+  position: absolute;
+  inset: 0;
+  height: 45%;
+  background: linear-gradient(var(--amber-hi), var(--ember));
+  animation: cueSlide 2.1s cubic-bezier(0.4, 0, 0.4, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora {
+    animation: none;
+  }
+
+  .cueFill {
+    animation: none;
+    height: 100%;
+    background: linear-gradient(var(--amber-hi), transparent);
+  }
 }
 
 @media (max-width: 860px) {
   .bustLayer {
     width: 100%;
     opacity: 0.42;
-  }
-
-  .bustVignette {
-    background:
-      linear-gradient(0deg, var(--bg-0) 8%, transparent 55%),
-      radial-gradient(circle at 60% 35%, transparent 30%, var(--bg-0) 78%);
+    -webkit-mask-image: radial-gradient(90% 78% at 62% 34%, #000 42%, transparent 72%);
+    mask-image: radial-gradient(90% 78% at 62% 34%, #000 42%, transparent 72%);
   }
 
   .content {

@@ -1,126 +1,293 @@
-.list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.node {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: clamp(1.25rem, 3vw, 2.25rem);
-}
-
-/* Spine column: continuous vertical rule with a node marker. */
-.spine {
+.section {
   position: relative;
-  width: 14px;
-  display: flex;
-  justify-content: center;
+  overflow: clip;
 }
 
-.spine::before {
+/* Slow-breathing ember wash anchored to the section's upper left. */
+.section::before {
   content: '';
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 2rem;
+  left: -14rem;
+  width: 46rem;
+  height: 46rem;
+  background: radial-gradient(
+    closest-side,
+    rgba(185, 28, 44, 0.075),
+    rgba(217, 119, 6, 0.028) 55%,
+    transparent 72%
+  );
+  pointer-events: none;
+  animation: breathe 17s ease-in-out infinite alternate;
+}
+
+.body {
+  position: relative;
+  padding-left: 3.75rem;
+  max-width: 46rem;
+}
+
+/* ---------- spine ---------- */
+
+.track,
+.fillLine {
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  bottom: 8px;
   width: 1px;
+}
+
+.track {
   background: var(--line-2);
 }
 
-/* The single editorializing gesture: the rule turns to gradient across the
-   pivot from physical to digital security. */
-.pivot .spine::before {
-  background: linear-gradient(var(--line-2), var(--crimson) 30%, var(--amber) 70%, var(--line-2));
+.fillLine {
+  width: 2px;
+  margin-left: -0.5px;
+  background: linear-gradient(180deg, var(--crimson), var(--ember) 55%, var(--amber));
+  transform-origin: top;
+  box-shadow: 0 0 12px rgba(205, 74, 22, 0.35);
 }
 
-.digital .spine::before {
-  background: linear-gradient(var(--amber), var(--line-2) 22%);
-}
-
-.node:first-child .spine::before {
-  top: 2.1rem;
-}
-
-.node:last-child .spine::before {
-  bottom: auto;
-  height: 2.1rem;
-}
-
-.dot {
-  position: relative;
-  margin-top: 1.9rem;
-  width: 13px;
-  height: 13px;
+.tip {
+  position: absolute;
+  left: 11px;
+  width: 7px;
+  height: 7px;
+  translate: -3px -3px;
   border-radius: 50%;
-  background: var(--bg-0);
-  border: 2px solid var(--line-2);
-  z-index: 1;
+  background: var(--amber-hi);
+  box-shadow:
+    0 0 6px 1px rgba(240, 160, 53, 0.9),
+    0 0 22px 6px rgba(240, 160, 53, 0.35);
 }
 
-.pivot .dot,
-.next .dot {
-  border-color: var(--amber-hi);
-  box-shadow: 0 0 0 4px rgba(240, 160, 53, 0.1);
+/* ---------- list & items ---------- */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(2.5rem, 5vh, 3.5rem);
 }
 
-.digital .dot {
-  border-color: var(--amber);
-}
-
-/* Card column */
-.card {
-  padding: 0 0 clamp(2.5rem, 5vh, 3.5rem);
+.item {
+  position: relative;
 }
 
 .era {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
   font-family: var(--font-mono);
   font-size: var(--text-label);
+  font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--amber-hi);
-  margin-bottom: 1.4rem;
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid var(--line-1);
+  margin-bottom: 1.7rem;
+}
+
+.era::before {
+  content: '';
+  flex: none;
+  width: 9px;
+  height: 9px;
+  rotate: 45deg;
+  background: var(--grad);
+}
+
+.era::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, var(--line-2), transparent);
+}
+
+/* ---------- node markers ---------- */
+
+.node {
+  position: absolute;
+  left: calc(-3.75rem + 11px);
+  top: 0.45rem;
+  width: 13px;
+  height: 13px;
+  translate: -50% 0;
+}
+
+/* Era headers push the node down to stay level with the date chip. */
+.item:has(.era) .node {
+  top: calc(0.45rem + 1.7rem + 1.2rem);
+}
+
+.nodeCore {
+  position: absolute;
+  inset: 0;
+  rotate: 45deg;
+  background: var(--bg-0);
+  border: 1px solid var(--ink-2);
+}
+
+.nodeFill {
+  position: absolute;
+  inset: 2.5px;
+  rotate: 45deg;
+  background: var(--grad);
+}
+
+.ring {
+  position: absolute;
+  inset: -3px;
+  rotate: 45deg;
+  border: 1px solid var(--amber-hi);
+}
+
+.burst {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid var(--ember);
+}
+
+.next .nodeCore {
+  border-style: dashed;
+}
+
+.next .nodeFill {
+  opacity: 0.55;
+}
+
+/* ---------- ghost numerals ---------- */
+
+.ghost {
+  display: none;
+  position: absolute;
+  z-index: 0;
+  right: -19rem;
+  top: 50%;
+  translate: 0 -50%;
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 900;
+  font-size: clamp(4.5rem, 8.5vw, 8rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(244, 241, 234, 0.09);
+  pointer-events: none;
+  user-select: none;
+}
+
+.pivot .ghost {
+  -webkit-text-stroke-color: rgba(240, 160, 53, 0.16);
+}
+
+/* ---------- cards ---------- */
+
+.card {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-1);
+  border: 1px solid var(--line-1);
+  border-radius: 8px;
+  padding: 1.5rem 1.7rem 1.6rem;
+  overflow: hidden;
+  transition:
+    translate 0.22s var(--ease-out),
+    border-color 0.22s,
+    box-shadow 0.22s;
+}
+
+/* Faint top-edge light so cards read as layered surfaces. */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 4%, rgba(244, 241, 234, 0.12), transparent 96%);
+}
+
+/* Gradient rule slides in on the left edge on hover. */
+.card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10%;
+  bottom: 10%;
+  width: 2px;
+  background: var(--grad);
+  opacity: 0;
+  transform: translateX(-3px);
+  transition:
+    opacity 0.25s,
+    transform 0.25s var(--ease-out);
+}
+
+.card:hover {
+  translate: 0 -3px;
+  border-color: var(--line-2);
+  box-shadow: 0 18px 44px -20px rgba(0, 0, 0, 0.65);
+}
+
+.card:hover::after {
+  opacity: 1;
+  transform: none;
 }
 
 .date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   font-family: var(--font-mono);
   font-size: var(--text-label);
-  letter-spacing: 0.06em;
-  color: var(--ink-2);
-  margin-bottom: 0.5rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-1);
+  border: 1px solid var(--line-2);
+  border-radius: 3px;
+  padding: 0.32rem 0.7rem;
+  background: rgba(13, 13, 15, 0.6);
+}
+
+.tick {
+  width: 7px;
+  height: 7px;
+  rotate: 45deg;
+  background: var(--grad);
 }
 
 .title {
-  font-size: var(--text-h3);
-  font-weight: 750;
+  margin-top: 1rem;
+  font-size: 1.45rem;
+  font-weight: 800;
   font-stretch: 112%;
+  line-height: 1.12;
   color: var(--ink-0);
-  line-height: 1.15;
 }
 
 .org {
-  margin-top: 0.45rem;
+  margin-top: 0.5rem;
   font-size: var(--text-small);
   font-weight: 600;
   color: var(--ink-1);
 }
 
 .meta {
-  margin-top: 0.15rem;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
+  font-weight: 400;
+  font-size: 0.8125rem;
+  letter-spacing: 0.03em;
   color: var(--ink-2);
 }
 
 .points {
-  margin: 1rem 0 0;
+  margin: 1.05rem 0 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 0.55rem;
-  max-width: 46rem;
+  gap: 0.6rem;
 }
 
 .points li {
@@ -128,23 +295,59 @@
   padding-left: 1.2rem;
   font-size: var(--text-small);
   color: var(--ink-1);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 .points li::before {
-  content: '';
+  content: '+';
   position: absolute;
   left: 0;
-  top: 0.6rem;
-  width: 5px;
-  height: 5px;
-  border-radius: 1px;
-  background: var(--ember);
-  rotate: 45deg;
+  top: -0.05rem;
+  font-family: var(--font-mono);
+  color: var(--amber);
 }
 
-@media (max-width: 560px) {
+/* ---------- responsive ---------- */
+
+@media (min-width: 1120px) {
+  .ghost {
+    display: block;
+  }
+}
+
+@media (max-width: 720px) {
+  .body {
+    padding-left: 2.4rem;
+  }
+
   .node {
-    gap: 1rem;
+    left: calc(-2.4rem + 8px);
+  }
+
+  .track,
+  .fillLine {
+    left: 8px;
+  }
+
+  .tip {
+    left: 8px;
+  }
+
+  .card {
+    padding: 1.15rem 1.2rem 1.3rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section::before {
+    animation: none;
+  }
+
+  .fillLine {
+    transform: none !important;
   }
 }

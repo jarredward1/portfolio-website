@@ -1,3 +1,25 @@
+.section {
+  position: relative;
+  overflow: clip;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  bottom: -10rem;
+  left: -14rem;
+  width: 42rem;
+  height: 42rem;
+  background: radial-gradient(
+    closest-side,
+    rgba(185, 28, 44, 0.05),
+    rgba(217, 119, 6, 0.022) 55%,
+    transparent 72%
+  );
+  pointer-events: none;
+  animation: breathe 21s ease-in-out infinite alternate;
+}
+
 .ledger {
   list-style: none;
   padding: 0;
@@ -6,12 +28,50 @@
 }
 
 .row {
+  position: relative;
   display: grid;
-  grid-template-columns: 8.5rem 1fr auto;
+  grid-template-columns: 2.4rem 8.5rem 1fr auto;
   align-items: center;
   gap: 1.5rem;
-  padding: 1.35rem 0.25rem;
+  padding: 1.35rem 0.5rem;
   border-bottom: 1px solid var(--line-1);
+  transition: background-color 0.2s;
+}
+
+/* Gradient rule slides in from the left edge on hover. */
+.row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 2px;
+  background: var(--grad);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.22s,
+    transform 0.22s var(--ease-out);
+}
+
+.row:hover {
+  background: rgba(20, 20, 23, 0.66);
+}
+
+.row:hover::before {
+  opacity: 1;
+  transform: none;
+}
+
+.rowIndex {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(244, 241, 234, 0.16);
+  user-select: none;
 }
 
 .pending {
@@ -83,10 +143,20 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .section::before {
+    animation: none;
+  }
+}
+
 @media (max-width: 560px) {
   .row {
     grid-template-columns: 1fr auto;
     gap: 0.35rem 1rem;
+  }
+
+  .rowIndex {
+    display: none;
   }
 
   .issuer {

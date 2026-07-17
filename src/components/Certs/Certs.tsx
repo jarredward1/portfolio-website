@@ -7,13 +7,13 @@ export default function Certifications() {
   const reduced = useReducedMotion()
 
   return (
-    <section id="certifications" className="section" aria-labelledby="certs-title">
+    <section id="certifications" className={`section ${s.section}`} aria-labelledby="certs-title">
       <div className="container">
         <SectionHeader
           kicker="Credentials"
           title="Certifications"
           titleId="certs-title"
-          sub="Formal validation alongside the hands-on work — with the B.S. in Cybersecurity (4.0 GPA) from Full Sail University."
+          sub="Formal validation alongside the hands-on work, anchored by a B.S. in Cybersecurity (4.0 GPA) from Full Sail University."
         />
 
         <ul className={s.ledger}>
@@ -26,6 +26,9 @@ export default function Certifications() {
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.45, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
             >
+              <span className={s.rowIndex} aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
               <span className={s.issuer}>{c.issuer}</span>
               <span className={s.name}>{c.name}</span>
               <span className={s.status}>

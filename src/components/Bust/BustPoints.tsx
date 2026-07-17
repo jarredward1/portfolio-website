@@ -6,9 +6,10 @@ import { bustVertex, bustFragment } from './shaders'
 import bustSrc from '../../assets/bust-source.png'
 
 const WORLD_HEIGHT = 3.3
-const CRIMSON = new THREE.Color('#b91c2c')
+const SHADOW = new THREE.Color('#801622')
 const EMBER = new THREE.Color('#cd4a16')
 const AMBER = new THREE.Color('#e8912f')
+const GOLD = new THREE.Color('#f6c87a')
 
 interface BustPointsProps {
   reduced: boolean
@@ -32,7 +33,7 @@ export default function BustPoints({ reduced, pointer }: BustPointsProps) {
       stride: isMobile ? 2 : 1,
       alphaThreshold: 40,
       worldHeight: WORLD_HEIGHT,
-      depth: 0.16,
+      depth: 0.1,
       scatterRadius: 2.6,
     }).then((s) => {
       if (alive) setSamples(s)
@@ -56,15 +57,16 @@ export default function BustPoints({ reduced, pointer }: BustPointsProps) {
     () => ({
       uProgress: { value: reduced ? 1 : 0 },
       uTime: { value: 0 },
-      uSize: { value: 16 * dpr },
+      uSize: { value: (isMobile ? 22 : 12.5) * dpr },
       uReduced: { value: reduced ? 1 : 0 },
-      uOpacity: { value: 0.92 },
-      uColorA: { value: CRIMSON },
+      uOpacity: { value: 0.95 },
+      uColorA: { value: SHADOW },
       uColorB: { value: EMBER },
       uColorC: { value: AMBER },
+      uColorD: { value: GOLD },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dpr],
+    [dpr, isMobile],
   )
 
   useEffect(() => {
@@ -106,10 +108,10 @@ export default function BustPoints({ reduced, pointer }: BustPointsProps) {
       mat.uniforms.uProgress.value = progress.current
     }
 
-    // Pointer parallax — damped rotation toward the cursor target.
+    // Pointer parallax: damped rotation toward the cursor target.
     if (!reduced && pointer.current) {
-      const targetY = pointer.current.x * 0.32
-      const targetX = pointer.current.y * 0.18
+      const targetY = pointer.current.x * 0.22
+      const targetX = pointer.current.y * 0.12
       group.rotation.y += (targetY - group.rotation.y) * 0.05
       group.rotation.x += (targetX - group.rotation.x) * 0.05
     }

@@ -1,4 +1,4 @@
-# Jarred Ward — Portfolio
+# Jarred Ward · Portfolio
 
 Personal portfolio site. Static build (Vite + React + TypeScript), deployed to
 Cloudflare Pages. The hero features a 3D particle bust (react-three-fiber); the
@@ -20,7 +20,7 @@ npm run preview    # serve the production build locally
 
 `npm run build` first runs `scripts/fetch-pinned.mjs` (the `prebuild` step). If
 `GITHUB_TOKEN` is unset or the API call fails, it keeps the committed fallback in
-`src/data/pinned.json` and exits cleanly — **the build never fails because of
+`src/data/pinned.json` and exits cleanly. **The build never fails because of
 GitHub, and the Projects section is never empty.**
 
 ---
@@ -59,7 +59,7 @@ indexed by search engines.
    it **Encrypt** (secret). Add it for both **Production** and **Preview**.
 
 Every push triggers a rebuild, which re-fetches the pinned repos with fresh data.
-To refresh the Projects section, just re-pin repos on GitHub and redeploy — no
+To refresh the Projects section, just re-pin repos on GitHub and redeploy. No
 code changes required.
 
 ### Local build test with the token
@@ -77,14 +77,14 @@ GITHUB_TOKEN=your_token_here npm run build
 
 All copy is sourced from Jarred's LinkedIn profile and GitHub. To edit:
 
-- **Timeline / bio** — `src/data/timeline.ts`, `src/data/site.ts`
-- **Certifications** — `src/data/certs.ts`
-- **Projects fallback** — `src/data/pinned.json` (auto-refreshed at build)
+- **Timeline / bio**: `src/data/timeline.ts`, `src/data/site.ts`
+- **Certifications**: `src/data/certs.ts`
+- **Projects fallback**: `src/data/pinned.json` (auto-refreshed at build)
 
 ## Regenerating the hero bust
 
 The particle bust samples `src/assets/bust-source.png` (a compact grayscale +
-alpha matte derived from a headshot — the raw photo is never committed). To
+alpha matte derived from a headshot; the raw photo is never committed). To
 regenerate from a new photo:
 
 ```bash

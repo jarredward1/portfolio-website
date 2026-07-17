@@ -33,6 +33,8 @@ export default function Hero() {
 
   return (
     <section className={s.hero} aria-labelledby="hero-name">
+      <div className={s.aurora} aria-hidden="true" />
+
       <div className={s.bustLayer} aria-hidden="true">
         {canWebgl ? (
           <Suspense fallback={null}>
@@ -41,7 +43,6 @@ export default function Hero() {
         ) : (
           <BustPoster />
         )}
-        <div className={s.bustVignette} />
       </div>
 
       <div className={`container ${s.inner}`}>
@@ -52,6 +53,7 @@ export default function Hero() {
           animate="show"
         >
           <motion.p className={`mono-label ${s.kicker}`} variants={item}>
+            <span className={s.kickTick} aria-hidden="true" />
             Vulnerability Management · GRC · Atlanta
           </motion.p>
 
@@ -89,7 +91,9 @@ export default function Hero() {
         animate={{ opacity: 1 }}
         transition={{ delay: reduced ? 0 : 1.4, duration: 0.6 }}
       >
-        <span className={s.scrollDot} />
+        <span className={s.cueTrack} aria-hidden="true">
+          <span className={s.cueFill} />
+        </span>
         <span className="mono-label">Scroll</span>
       </motion.a>
     </section>

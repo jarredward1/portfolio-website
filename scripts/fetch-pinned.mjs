@@ -3,7 +3,7 @@
  *
  * Runs as `prebuild` (so every Cloudflare Pages deploy refreshes the data).
  * Pinned repos are only exposed via GitHub's GraphQL API, which requires an
- * authenticated request — the token comes from the GITHUB_TOKEN environment
+ * authenticated request; the token comes from the GITHUB_TOKEN environment
  * variable (a Cloudflare Pages encrypted variable; never committed).
  *
  * Failure policy: this script must NEVER fail the build or empty the section.
@@ -35,7 +35,7 @@ const QUERY = `
 `
 
 async function keepFallback(reason) {
-  console.warn(`[fetch-pinned] ${reason} — keeping committed pinned.json fallback.`)
+  console.warn(`[fetch-pinned] ${reason}; keeping committed pinned.json fallback.`)
   try {
     const current = JSON.parse(await readFile(OUT, 'utf8'))
     console.warn(`[fetch-pinned] Fallback has ${current.repos?.length ?? 0} repos (source: ${current.source}).`)

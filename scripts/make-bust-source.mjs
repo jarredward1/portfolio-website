@@ -2,7 +2,7 @@
  * ONE-TIME preprocessing: turn Jarred's headshot into a compact grayscale+alpha
  * matte that the hero particle system samples at runtime.
  *
- * The raw photo never enters the repo — only the derived matte (src/assets/
+ * The raw photo never enters the repo; only the derived matte (src/assets/
  * bust-source.png, ~240×288) is committed.
  *
  * Pipeline (documented so it can be reproduced if the photo changes):
@@ -28,8 +28,8 @@ if (!SRC) {
 }
 
 const OUT = fileURLToPath(new URL('../src/assets/bust-source.png', import.meta.url))
-const W = 240
-const H = 288
+const W = 340
+const H = 408
 
 // Trim transparent margins so the subject fills the frame consistently, then
 // fit head-and-shoulders into the canvas anchored near the top.
@@ -55,13 +55,15 @@ for (let i = 0; i < W * H; i++) {
   alphaRaw[i] = a
 }
 
-// Normalise + lift the grayscale within the matte for stronger relief.
+// Portrait-fidelity curve: normalise to full range, a moderate midtone lift so
+// the face reads on a dark page, and a mild sharpen so eyes, beard line, and
+// the tie pattern survive the downsample. No hard linear boost: tonal ORDER is
+// what makes the portrait legible, so highlights must not clip.
 // NOTE: sharp promotes a 1-channel raw input to 3 channels through these ops,
 // so read the real channel count back and sample channel 0 (R=G=B here).
 const grayOut = await sharp(grayRaw, { raw: { width: W, height: H, channels: 1 } })
-  .normalise()
-  .gamma(1.5)
-  .linear(1.2, 4)
+  .normalise().clahe({ width: 42, height: 42, maxSlope: 3 })  .gamma(1.3)
+  .sharpen({ sigma: 0.7 })
   .raw()
   .toBuffer({ resolveWithObject: true })
 
