@@ -11,14 +11,28 @@ const EMBER = new THREE.Color('#cd4a16')
 const AMBER = new THREE.Color('#e8912f')
 const GOLD = new THREE.Color('#f6c87a')
 
+// How far the head turns to follow the cursor (radians).
+const HEAD_YAW_MAX = 0.3
+const HEAD_PITCH_MAX = 0.12
+
+export interface BustPointer {
+  /** Window-normalized cursor (-1..1), drives the head turn. */
+  wx: number
+  wy: number
+  /** Canvas-normalized cursor (-1..1, y up), drives the particle repulsion. */
+  cx: number
+  cy: number
+  /** Whether the cursor is over (or near) the bust canvas. */
+  inside: boolean
+}
+
 interface BustPointsProps {
   reduced: boolean
-  pointer: React.RefObject<{ x: number; y: number }>
+  pointer: React.RefObject<BustPointer>
 }
 
 export default function BustPoints({ reduced, pointer }: BustPointsProps) {
   const { gl, invalidate } = useThree()
-  const groupRef = useRef<THREE.Group>(null)
   const matRef = useRef<THREE.ShaderMaterial>(null)
   const [samples, setSamples] = useState<BustSamples | null>(null)
   const progress = useRef(0)
@@ -60,6 +74,10 @@ export default function BustPoints({ reduced, pointer }: BustPointsProps) {
       uSize: { value: (isMobile ? 22 : 12.5) * dpr },
       uReduced: { value: reduced ? 1 : 0 },
       uOpacity: { value: 0.95 },
+      uHeadYaw: { value: 0 },
+      uHeadPitch: { value: 0 },
+      uPointer: { value: new THREE.Vector2(0, -10) },
+      uForce: { value: 0 },
       uColorA: { value: SHADOW },
       uColorB: { value: EMBER },
       uColorC: { value: AMBER },
@@ -89,10 +107,9 @@ export default function BustPoints({ reduced, pointer }: BustPointsProps) {
     }
   }, [geometry])
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const mat = matRef.current
-    const group = groupRef.current
-    if (!mat || !group) return
+    if (!mat) return
 
     const t = state.clock.elapsedTime
     mat.uniforms.uTime.value = t
@@ -108,19 +125,29 @@ export default function BustPoints({ reduced, pointer }: BustPointsProps) {
       mat.uniforms.uProgress.value = progress.current
     }
 
-    // Pointer parallax: damped rotation toward the cursor target.
-    if (!reduced && pointer.current) {
-      const targetY = pointer.current.x * 0.22
-      const targetX = pointer.current.y * 0.12
-      group.rotation.y += (targetY - group.rotation.y) * 0.05
-      group.rotation.x += (targetX - group.rotation.x) * 0.05
+    const pt = pointer.current
+    if (!reduced && pt) {
+      const u = mat.uniforms
+      const dt = Math.min(delta, 0.1)
+
+      // Head turn: damped toward the window-space cursor, wherever it is.
+      u.uHeadYaw.value = THREE.MathUtils.damp(u.uHeadYaw.value, pt.wx * HEAD_YAW_MAX, 5, dt)
+      u.uHeadPitch.value = THREE.MathUtils.damp(u.uHeadPitch.value, pt.wy * HEAD_PITCH_MAX, 5, dt)
+
+      // Repulsion: cursor mapped onto the bust plane in world units. Force
+      // eases in over the canvas and heals to zero once the cursor leaves.
+      const targetX = (pt.cx * state.viewport.width) / 2
+      const targetY = (pt.cy * state.viewport.height) / 2
+      u.uPointer.value.x = THREE.MathUtils.damp(u.uPointer.value.x, targetX, 12, dt)
+      u.uPointer.value.y = THREE.MathUtils.damp(u.uPointer.value.y, targetY, 12, dt)
+      u.uForce.value = THREE.MathUtils.damp(u.uForce.value, pt.inside ? 1 : 0, 5, dt)
     }
   })
 
   if (!geometry) return null
 
   return (
-    <group ref={groupRef}>
+    <group>
       <points frustumCulled={false}>
         <primitive object={geometry} attach="geometry" />
         <shaderMaterial

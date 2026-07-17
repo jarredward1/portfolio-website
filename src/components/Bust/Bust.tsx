@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import BustPoints from './BustPoints'
+import BustPoints, { type BustPointer } from './BustPoints'
 
 interface BustProps {
   reduced: boolean
@@ -12,7 +12,7 @@ interface BustProps {
  */
 export default function Bust({ reduced }: BustProps) {
   const wrapRef = useRef<HTMLDivElement>(null)
-  const pointer = useRef({ x: 0, y: 0 })
+  const pointer = useRef<BustPointer>({ wx: 0, wy: 0, cx: 0, cy: -10, inside: false })
   const [active, setActive] = useState(true)
 
   // Pause the render loop when the hero is scrolled out of view.
@@ -27,12 +27,27 @@ export default function Bust({ reduced }: BustProps) {
     return () => io.disconnect()
   }, [])
 
-  // Track pointer for parallax (normalized -1..1, damped in the render loop).
+  // Track the cursor two ways: window-normalized for the head turn, and
+  // canvas-normalized (plus an inside flag) for the particle repulsion.
+  // Desktop pointers only; touch drags would fight page scrolling.
   useEffect(() => {
-    if (reduced) return
+    if (reduced || !window.matchMedia('(pointer: fine)').matches) return
     const onMove = (e: PointerEvent) => {
-      pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1
-      pointer.current.y = (e.clientY / window.innerHeight) * 2 - 1
+      const p = pointer.current
+      p.wx = (e.clientX / window.innerWidth) * 2 - 1
+      p.wy = (e.clientY / window.innerHeight) * 2 - 1
+
+      const el = wrapRef.current
+      if (!el) return
+      const r = el.getBoundingClientRect()
+      if (r.width === 0 || r.height === 0) return
+      p.cx = ((e.clientX - r.left) / r.width) * 2 - 1
+      p.cy = -(((e.clientY - r.top) / r.height) * 2 - 1)
+      p.inside =
+        e.clientX >= r.left - 30 &&
+        e.clientX <= r.right + 30 &&
+        e.clientY >= r.top - 30 &&
+        e.clientY <= r.bottom + 30
     }
     window.addEventListener('pointermove', onMove, { passive: true })
     return () => window.removeEventListener('pointermove', onMove)
