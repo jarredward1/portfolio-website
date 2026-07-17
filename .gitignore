@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Local environment (GITHUB_TOKEN lives in Cloudflare Pages secrets, never here)
+.env
+.env.*
+
+# OS noise
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# TypeScript incremental state
+*.tsbuildinfo

@@ -1,0 +1,22 @@
+.header {
+  margin-bottom: clamp(2.5rem, 5vh, 3.5rem);
+}
+
+.header h2 {
+  margin-top: 0.6rem;
+}
+
+.sub {
+  margin-top: 0.9rem;
+  color: var(--ink-1);
+  font-size: var(--text-small);
+  max-width: 38rem;
+}
+
+.rule {
+  height: 1px;
+  margin-top: 1.4rem;
+  background: var(--grad);
+  transform-origin: left;
+  opacity: 0.75;
+}

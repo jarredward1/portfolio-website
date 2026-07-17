@@ -1,0 +1,54 @@
+{
+  "generatedAt": "2026-07-17T00:00:00Z",
+  "source": "seed",
+  "repos": [
+    {
+      "name": "vulnerability-management-program",
+      "description": "End-to-end vulnerability management program using Tenable, from policy creation through six remediation rounds, achieving an 83% reduction in vulnerabilities.",
+      "url": "https://github.com/jarredward1/vulnerability-management-program",
+      "stars": 0,
+      "pushedAt": "2026-06-26T16:58:21Z",
+      "language": null
+    },
+    {
+      "name": "cybersecurity-risk-assessment",
+      "description": "Cybersecurity risk assessment for a fictional financial institution using a 5x5 risk matrix and the NIST RMF.",
+      "url": "https://github.com/jarredward1/cybersecurity-risk-assessment",
+      "stars": 0,
+      "pushedAt": "2026-06-26T17:55:22Z",
+      "language": null
+    },
+    {
+      "name": "enterprise-network-system-implementation",
+      "description": "Full enterprise network buildout for a fictional law firm: LAN design, hardware procurement, and Windows Server 2022, delivered under a $60K budget.",
+      "url": "https://github.com/jarredward1/enterprise-network-system-implementation",
+      "stars": 0,
+      "pushedAt": "2026-06-23T09:29:53Z",
+      "language": null
+    },
+    {
+      "name": "enterprise-security-program",
+      "description": "Information security program for a fictional e-commerce company, built as a governance hierarchy mapped to NIST SP 800-53 and PCI DSS.",
+      "url": "https://github.com/jarredward1/enterprise-security-program",
+      "stars": 0,
+      "pushedAt": "2026-06-26T16:53:24Z",
+      "language": null
+    },
+    {
+      "name": "pci-dss-audit",
+      "description": "Full PCI DSS audit engagement covering scoping, SAQ D assessment, and reporting for a fictional Level 2 e-commerce merchant.",
+      "url": "https://github.com/jarredward1/pci-dss-audit",
+      "stars": 0,
+      "pushedAt": "2026-06-18T19:17:02Z",
+      "language": null
+    },
+    {
+      "name": "grc-analyst-project",
+      "description": "Security posture and gap analysis mapped to the six functions of NIST CSF 2.0.",
+      "url": "https://github.com/jarredward1/grc-analyst-project",
+      "stars": 0,
+      "pushedAt": "2026-06-18T19:08:08Z",
+      "language": null
+    }
+  ]
+}

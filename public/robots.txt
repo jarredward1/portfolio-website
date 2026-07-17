@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# The résumé PDF is linked from the site but should not be independently
+# crawled or indexed (see also the X-Robots-Tag header in public/_headers).
+Disallow: /resume/

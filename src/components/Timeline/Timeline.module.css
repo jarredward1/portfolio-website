@@ -1,0 +1,150 @@
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.node {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+/* Spine column: continuous vertical rule with a node marker. */
+.spine {
+  position: relative;
+  width: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+.spine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-2);
+}
+
+/* The single editorializing gesture: the rule turns to gradient across the
+   pivot from physical to digital security. */
+.pivot .spine::before {
+  background: linear-gradient(var(--line-2), var(--crimson) 30%, var(--amber) 70%, var(--line-2));
+}
+
+.digital .spine::before {
+  background: linear-gradient(var(--amber), var(--line-2) 22%);
+}
+
+.node:first-child .spine::before {
+  top: 2.1rem;
+}
+
+.node:last-child .spine::before {
+  bottom: auto;
+  height: 2.1rem;
+}
+
+.dot {
+  position: relative;
+  margin-top: 1.9rem;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--bg-0);
+  border: 2px solid var(--line-2);
+  z-index: 1;
+}
+
+.pivot .dot,
+.next .dot {
+  border-color: var(--amber-hi);
+  box-shadow: 0 0 0 4px rgba(240, 160, 53, 0.1);
+}
+
+.digital .dot {
+  border-color: var(--amber);
+}
+
+/* Card column */
+.card {
+  padding: 0 0 clamp(2.5rem, 5vh, 3.5rem);
+}
+
+.era {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber-hi);
+  margin-bottom: 1.4rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.date {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-size: var(--text-h3);
+  font-weight: 750;
+  font-stretch: 112%;
+  color: var(--ink-0);
+  line-height: 1.15;
+}
+
+.org {
+  margin-top: 0.45rem;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--ink-1);
+}
+
+.meta {
+  margin-top: 0.15rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+
+.points {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+  max-width: 46rem;
+}
+
+.points li {
+  position: relative;
+  padding-left: 1.2rem;
+  font-size: var(--text-small);
+  color: var(--ink-1);
+  line-height: 1.55;
+}
+
+.points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+  background: var(--ember);
+  rotate: 45deg;
+}
+
+@media (max-width: 560px) {
+  .node {
+    gap: 1rem;
+  }
+}

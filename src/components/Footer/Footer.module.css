@@ -1,0 +1,59 @@
+.footer {
+  border-top: 1px solid var(--line-1);
+  padding-block: 2rem;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.left {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+
+.tick {
+  width: 9px;
+  height: 9px;
+  background: var(--grad);
+  rotate: 45deg;
+}
+
+.name {
+  color: var(--ink-0);
+}
+
+.sep {
+  color: var(--line-2);
+}
+
+.right {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.icon {
+  color: var(--ink-1);
+  display: inline-flex;
+  transition: color 0.18s;
+}
+
+.icon:hover {
+  color: var(--amber-hi);
+}
+
+.copy {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  color: var(--ink-2);
+}
