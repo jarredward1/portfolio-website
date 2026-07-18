@@ -17,7 +17,7 @@ export const bustVertex = /* glsl */ `
   varying float vDisturb;
 
   // Tuning knobs for the two interactions.
-  const vec3 HEAD_PIVOT = vec3(0.0, -0.42, 0.0); // neck joint, world units
+  const vec3 HEAD_PIVOT = vec3(0.0, 0.05, 0.0); // neck joint, world units (measured from the matte)
   const float POINTER_RADIUS = 0.42;            // base size of the break-apart zone
   const float POINTER_STRENGTH = 0.44;          // how far particles flee
 
@@ -55,7 +55,10 @@ export const bustVertex = /* glsl */ `
     // ramps from 0 at the shoulders to 1 at the face, so the neck twists
     // instead of the head shearing off the torso. A faint time-based sway
     // keeps the head alive when the cursor is still.
-    float w = smoothstep(-0.42, -0.12, formed.y);
+    // Measured from the silhouette: the head's constant-width region ends
+    // ~y=+0.30 and the collar flare starts ~y=+0.08, so the weight is fully
+    // zero before any shirt or jacket pixels. Only the head and beard turn.
+    float w = smoothstep(0.02, 0.28, formed.y);
     float yaw = (uHeadYaw + sin(uTime * 0.22) * 0.035 * (1.0 - uReduced)) * w;
     float pitch = uHeadPitch * w;
     vec3 p = formed - HEAD_PIVOT;
