@@ -24,7 +24,11 @@ export const bustVertex = /* glsl */ `
   varying float vScan;
 
   // Tuning knobs for the two interactions.
-  const vec3 HEAD_PIVOT = vec3(0.0, 0.05, 0.0); // neck joint, world units (measured from the matte)
+  // Pivot measured from the matte: x = head-run center (-0.016), z = the
+  // head shell's mean inflation depth (+0.30). With real volume, yawing
+  // about the old z=0 base plane translated the whole head sideways
+  // (~sin(yaw) * 0.3) instead of spinning it in place.
+  const vec3 HEAD_PIVOT = vec3(-0.016, 0.05, 0.30);
   const float POINTER_RADIUS = 0.42;            // base size of the break-apart zone
   const float POINTER_STRENGTH = 0.44;          // how far particles flee
 
@@ -69,6 +73,12 @@ export const bustVertex = /* glsl */ `
     // now stays zero until clear of the collar and reaches full weight by
     // the jaw. Only the head and beard turn; the shirt stays planted.
     float w = smoothstep(0.1, 0.26, formed.y);
+    // The collar TIPS ride up the neck above the flare line, so no y cutoff
+    // alone can fence them out; but they are white fabric among skin and
+    // beard. Pin bright points inside the collar zone. Bright skin
+    // highlights live higher on the face and keep their weight.
+    float fabric = smoothstep(0.7, 0.85, aShade) * (1.0 - smoothstep(0.28, 0.42, formed.y));
+    w *= 1.0 - fabric;
     // The idle sway is gated off in the light theme: with the inflated depth,
     // a constant micro-yaw slides different-depth particles across each other
     // on screen, which normal-blended ink renders as mottle (additive embers
