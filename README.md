@@ -1,27 +1,79 @@
 # Jarred Ward · Portfolio
 
-Personal portfolio site. Static build (Vite + React + TypeScript), deployed to
-Cloudflare Pages. The hero features a 3D particle bust (react-three-fiber); the
-Projects section is populated at build time from GitHub's pinned repositories.
+<!-- After the first deploy, add: **Live:** https://<project>.pages.dev -->
+
+Personal site for a vulnerability-management and GRC analyst. Single page, statically built, deployed on Cloudflare Pages. No template, no component library, no CSS framework: hand-written design tokens, CSS Modules, and one deliberate WebGL set piece.
+
+## Stack
+
+| Layer | Choice |
+| --- | --- |
+| Build | Vite 7, TypeScript (strict), React 19 |
+| Styling | CSS Modules over hand-written custom-property tokens |
+| Type | Archivo Variable (display), Public Sans Variable (body), IBM Plex Mono (labels), all self-hosted |
+| Motion | Framer Motion for reveals; custom GLSL for the hero |
+| 3D | three.js via react-three-fiber, no drei, no postprocessing |
+| Hosting | Cloudflare Pages, static output only |
+
+## The particle bust
+
+The hero renders a portrait as tens of thousands of ember particles that assemble from scatter on load.
+
+- **Asset pipeline:** the source photo never enters the repo. A one-time local pass runs a `rembg` cutout, then `scripts/make-bust-source.mjs` (sharp) downsamples it to a 340×408 grayscale+alpha matte of about 100 KB. That committed matte is the only portrait data the build ever sees.
+- **Runtime:** the matte is sampled into a `THREE.Points` geometry (full density on desktop, quarter on mobile). Position comes from the pixel grid, depth relief from luminance.
+- **Shader choreography:** staggered expo-out assembly, idle drift, head-only rotation soft-skinned around a neck pivot measured from the silhouette (the collar stays still), cursor repulsion driven by coherent value noise so the break-apart tears in ragged clumps instead of a clean circle, a periodic scan sweep, a tap shockwave ring, and a turbulent scroll dissolve.
+- **Degrade paths:** `prefers-reduced-motion` renders the formed portrait statically; no WebGL falls back to a pre-rendered poster of the same composition. The three.js chunk is lazy-loaded so the largest contentful paint is hero text, and the render loop pauses when the hero leaves the viewport.
+
+<details>
+<summary>Regenerating the bust from a new photo</summary>
+
+```bash
+# 1. Subject cutout (throwaway venv)
+python3 -m venv /tmp/rembg-venv
+/tmp/rembg-venv/bin/pip install "rembg[cpu]" pillow
+/tmp/rembg-venv/bin/python -c "from rembg import remove; from PIL import Image; \
+  remove(Image.open('HEADSHOT.jpg').convert('RGBA')).save('/tmp/cutout.png')"
+
+# 2. Build the matte (the no-WebGL poster is generated the same way)
+node scripts/make-bust-source.mjs /tmp/cutout.png
+```
+
+</details>
+
+## Two themes, one contrast discipline
+
+Dark is the authored default: warm charcoal, an ember gradient on a strict budget, additive-blended particle glow. Light is opt-in ("ink on paper"): the same portrait re-rendered as a normal-blended ink stipple via a `uThemeMix` shader branch that reduces exactly to the dark math when off, with every glow effect re-authored as rust-and-ink.
+
+- Every token pair in both themes is WCAG-verified: body text ≥ 15:1, secondary ≥ 7:1, small accents ≥ 4.5:1, crimson reserved for large decorative use.
+- The preference persists in `localStorage` and applies before first paint via `public/theme.js`, kept as an external same-origin file because the CSP forbids inline scripts.
+- Theme switches crossfade through the View Transitions API where supported and degrade to an instant swap.
+
+## Fail-safe GitHub integration
+
+`npm run build` first runs `scripts/fetch-pinned.mjs` (the `prebuild` step), which queries the GitHub GraphQL API for pinned repositories and rewrites `src/data/pinned.json`. Every failure mode (no token, bad token, rate limit, network error, malformed response) logs a warning, keeps the committed fallback, and exits 0. **The build never fails because of GitHub, and the Projects section is never empty.** The client never calls any API.
+
+## Security posture
+
+The site makes zero external requests at runtime (fonts, styles, and scripts are all first-party), which allows a strict header set in `public/_headers`:
+
+- `Content-Security-Policy: default-src 'self'` with `object-src 'none'`, `frame-ancestors 'none'`, `base-uri 'self'`, `form-action 'self'`
+- `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, locked-down `Permissions-Policy`
+- The résumé path is excluded from indexing via `X-Robots-Tag` and `robots.txt`
+
+## Performance and accessibility
+
+Initial JavaScript is ~114 KB gzipped; the three.js scene ships as a separate ~234 KB lazy chunk off the critical path. Canvas layout space is reserved (no CLS), fingerprinted assets are immutable-cached for a year, and fonts are subsetted woff2.
+
+Skip link, semantic landmarks, visible `:focus-visible` rings, labeled icon controls, `aria-hidden` canvas, and full `prefers-reduced-motion` coverage: static bust, opacity-only reveals, no parallax, no orbit or pulse animations.
 
 ## Local development
 
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-```
-
-## Build
-
-```bash
 npm run build      # runs the pinned-repos fetch, then tsc + vite build → dist/
 npm run preview    # serve the production build locally
 ```
-
-`npm run build` first runs `scripts/fetch-pinned.mjs` (the `prebuild` step). If
-`GITHUB_TOKEN` is unset or the API call fails, it keeps the committed fallback in
-`src/data/pinned.json` and exits cleanly. **The build never fails because of
-GitHub, and the Projects section is never empty.**
 
 ---
 
@@ -73,36 +125,11 @@ GITHUB_TOKEN=your_token_here npm run build
 
 ---
 
-## Content
+## Editing content
 
 All copy is sourced from Jarred's LinkedIn profile and GitHub. To edit:
 
 - **Timeline / bio**: `src/data/timeline.ts`, `src/data/site.ts`
 - **Certifications**: `src/data/certs.ts`
 - **Projects fallback**: `src/data/pinned.json` (auto-refreshed at build)
-
-## Regenerating the hero bust
-
-The particle bust samples `src/assets/bust-source.png` (a compact grayscale +
-alpha matte derived from a headshot; the raw photo is never committed). To
-regenerate from a new photo:
-
-```bash
-# 1. Subject cutout (throwaway venv)
-python3 -m venv /tmp/rembg-venv
-/tmp/rembg-venv/bin/pip install "rembg[cpu]" pillow
-/tmp/rembg-venv/bin/python -c "from rembg import remove; from PIL import Image; \
-  remove(Image.open('HEADSHOT.jpg').convert('RGBA')).save('/tmp/cutout.png')"
-
-# 2. Build the matte (and the no-WebGL poster is generated the same way)
-node scripts/make-bust-source.mjs /tmp/cutout.png
-```
-
-## Accessibility & performance notes
-
-- `prefers-reduced-motion` is respected everywhere: the bust renders a static
-  formed state, and section reveals become simple fades.
-- No WebGL → the hero falls back to a static poster image.
-- three.js is code-split into a lazy chunk so it never blocks first paint.
-- The site makes **zero external runtime requests**; a strict `default-src
-  'self'` CSP is set in `public/_headers`.
+- **Social preview image**: regenerate with `node scripts/make-og.mjs`
