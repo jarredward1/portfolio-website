@@ -62,10 +62,13 @@ export const bustVertex = /* glsl */ `
     // ramps from 0 at the shoulders to 1 at the face, so the neck twists
     // instead of the head shearing off the torso. A faint time-based sway
     // keeps the head alive when the cursor is still.
-    // Measured from the silhouette: the head's constant-width region ends
-    // ~y=+0.30 and the collar flare starts ~y=+0.08, so the weight is fully
-    // zero before any shirt or jacket pixels. Only the head and beard turn.
-    float w = smoothstep(0.02, 0.28, formed.y);
+    // Measured from the silhouette: the collar flare starts ~y=+0.08 (down
+    // to ~+0.075 after the volume sampling's perspective compression). The
+    // flat bust could start its ramp at 0.02 invisibly, but with real depth
+    // even a small residual weight swings points by their z, so the band
+    // now stays zero until clear of the collar and reaches full weight by
+    // the jaw. Only the head and beard turn; the shirt stays planted.
+    float w = smoothstep(0.1, 0.26, formed.y);
     // The idle sway is gated off in the light theme: with the inflated depth,
     // a constant micro-yaw slides different-depth particles across each other
     // on screen, which normal-blended ink renders as mottle (additive embers
