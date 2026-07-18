@@ -77,6 +77,63 @@
   opacity: 1;
 }
 
+/* Target-lock reticle: corner brackets slide into place on hover. */
+.corners {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.22s;
+}
+
+.corners span {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border: 0 solid var(--amber-hi);
+  transition: transform 0.24s var(--ease-out);
+}
+
+.cornerTL {
+  top: 4px;
+  left: 4px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  transform: translate(6px, 6px);
+}
+
+.cornerTR {
+  top: 4px;
+  right: 4px;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  transform: translate(-6px, 6px);
+}
+
+.cornerBL {
+  bottom: 4px;
+  left: 4px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  transform: translate(6px, -6px);
+}
+
+.cornerBR {
+  bottom: 4px;
+  right: 4px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  transform: translate(-6px, -6px);
+}
+
+.card:hover .corners {
+  opacity: 1;
+}
+
+.card:hover .corners span {
+  transform: translate(0, 0);
+}
+
 /* Oversized ghost index in each card's top-right corner. */
 .index {
   position: absolute;

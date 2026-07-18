@@ -29,9 +29,11 @@ export interface BustPointer {
 interface BustPointsProps {
   reduced: boolean
   pointer: React.RefObject<BustPointer>
+  /** 0 at the top of the page, 1 once the hero has mostly scrolled away. */
+  exit: React.RefObject<number>
 }
 
-export default function BustPoints({ reduced, pointer }: BustPointsProps) {
+export default function BustPoints({ reduced, pointer, exit }: BustPointsProps) {
   const { gl, invalidate } = useThree()
   const matRef = useRef<THREE.ShaderMaterial>(null)
   const [samples, setSamples] = useState<BustSamples | null>(null)
@@ -78,6 +80,7 @@ export default function BustPoints({ reduced, pointer }: BustPointsProps) {
       uHeadPitch: { value: 0 },
       uPointer: { value: new THREE.Vector2(0, -10) },
       uForce: { value: 0 },
+      uExit: { value: 0 },
       uColorA: { value: SHADOW },
       uColorB: { value: EMBER },
       uColorC: { value: AMBER },
@@ -141,6 +144,17 @@ export default function BustPoints({ reduced, pointer }: BustPointsProps) {
       u.uPointer.value.x = THREE.MathUtils.damp(u.uPointer.value.x, targetX, 12, dt)
       u.uPointer.value.y = THREE.MathUtils.damp(u.uPointer.value.y, targetY, 12, dt)
       u.uForce.value = THREE.MathUtils.damp(u.uForce.value, pt.inside ? 1 : 0, 5, dt)
+    }
+
+    // Scroll dissolve follows the hero's exit progress.
+    if (!reduced) {
+      const dt = Math.min(delta, 0.1)
+      mat.uniforms.uExit.value = THREE.MathUtils.damp(
+        mat.uniforms.uExit.value,
+        exit.current ?? 0,
+        6,
+        dt,
+      )
     }
   })
 

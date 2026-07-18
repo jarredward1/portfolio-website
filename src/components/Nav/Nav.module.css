@@ -48,6 +48,7 @@
 }
 
 .link {
+  position: relative;
   font-size: var(--text-small);
   font-weight: 500;
   color: var(--ink-1);
@@ -56,6 +57,22 @@
 
 .link:hover {
   color: var(--ink-0);
+}
+
+.linkOn {
+  color: var(--ink-0);
+}
+
+/* Active-section marker: a small diamond that slides between links. */
+.activeDiamond {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  rotate: 45deg;
+  background: var(--amber-hi);
 }
 
 .side {

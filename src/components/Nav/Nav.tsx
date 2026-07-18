@@ -1,23 +1,46 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { motion, useReducedMotion } from 'motion/react'
 import { site } from '../../data/site'
 import { GitHubIcon, LinkedInIcon } from '../ui/Icons'
 import s from './Nav.module.css'
 
 const links = [
-  { href: '#timeline', label: 'Timeline' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#certifications', label: 'Certifications' },
-  { href: '#contact', label: 'Contact' },
+  { id: 'timeline', href: '#timeline', label: 'Timeline' },
+  { id: 'projects', href: '#projects', label: 'Projects' },
+  { id: 'certifications', href: '#certifications', label: 'Certifications' },
+  { id: 'contact', href: '#contact', label: 'Contact' },
 ]
 
 export default function Nav() {
+  const reduced = useReducedMotion()
   const [scrolled, setScrolled] = useState(false)
+  const [active, setActive] = useState<string | null>(null)
+  const vis = useRef<Record<string, boolean>>({})
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Track which section currently crosses the middle of the viewport; a small
+  // amber diamond slides under the matching link.
+  useEffect(() => {
+    const els = links
+      .map((l) => document.getElementById(l.id))
+      .filter((el): el is HTMLElement => el !== null)
+    if (els.length === 0) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) vis.current[e.target.id] = e.isIntersecting
+        const current = links.find((l) => vis.current[l.id])
+        setActive(current ? current.id : null)
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    )
+    els.forEach((el) => io.observe(el))
+    return () => io.disconnect()
   }, [])
 
   return (
@@ -29,8 +52,25 @@ export default function Nav() {
         </a>
         <nav aria-label="Sections" className={s.links}>
           {links.map((l) => (
-            <a key={l.href} href={l.href} className={s.link}>
+            <a
+              key={l.id}
+              href={l.href}
+              className={`${s.link} ${active === l.id ? s.linkOn : ''}`}
+              aria-current={active === l.id ? 'location' : undefined}
+            >
               {l.label}
+              {active === l.id ? (
+                <motion.span
+                  layoutId="nav-active-diamond"
+                  className={s.activeDiamond}
+                  aria-hidden="true"
+                  transition={
+                    reduced
+                      ? { duration: 0 }
+                      : { type: 'spring', stiffness: 480, damping: 36 }
+                  }
+                />
+              ) : null}
             </a>
           ))}
         </nav>

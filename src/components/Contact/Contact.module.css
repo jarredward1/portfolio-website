@@ -22,8 +22,25 @@
   pointer-events: none;
 }
 
+/* Bookend watermark: a faint ghost of the hero bust closes the page the way
+   it opened. Sits behind the content, melted into the dark at the edges. */
+.section::after {
+  content: '';
+  position: absolute;
+  right: -3%;
+  bottom: 0;
+  width: min(44vw, 540px);
+  aspect-ratio: 340 / 408;
+  background: url('../../assets/bust-poster.png') center / contain no-repeat;
+  opacity: 0.055;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(85% 85% at 50% 45%, #000 50%, transparent 97%);
+  mask-image: radial-gradient(85% 85% at 50% 45%, #000 50%, transparent 97%);
+}
+
 .wrap {
   position: relative;
+  z-index: 1;
   max-width: 52rem;
 }
 

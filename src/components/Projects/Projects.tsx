@@ -55,6 +55,12 @@ export default function Projects() {
               transition={{ duration: 0.5, delay: (i % 2) * 0.06, ease: [0.22, 1, 0.36, 1] }}
             >
               <a className={s.card} href={repo.url} target="_blank" rel="noreferrer">
+                <span className={s.corners} aria-hidden="true">
+                  <span className={s.cornerTL} />
+                  <span className={s.cornerTR} />
+                  <span className={s.cornerBL} />
+                  <span className={s.cornerBR} />
+                </span>
                 <span className={s.index} aria-hidden="true">
                   {String(i + 1).padStart(2, '0')}
                 </span>

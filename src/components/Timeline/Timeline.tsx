@@ -1,6 +1,7 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   motion,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -28,16 +29,18 @@ function TimelineNode({
   m,
   showEra,
   reduced,
+  spark,
 }: {
   m: Milestone
   showEra: boolean
   reduced: boolean
+  spark: boolean
 }) {
   const era = eraLabel[m.era]
   const view = { once: true, margin: '-80px' } as const
 
   return (
-    <li className={`${s.item} ${s[m.era]}`}>
+    <li className={`${s.item} ${s[m.era]}`} data-id={m.id}>
       {showEra && era ? (
         <motion.p
           className={s.era}
@@ -61,7 +64,7 @@ function TimelineNode({
         {m.ghost}
       </motion.span>
 
-      <span className={s.node} aria-hidden="true">
+      <span className={s.node} aria-hidden="true" data-node>
         <span className={s.nodeCore} />
         <motion.span
           className={s.nodeFill}
@@ -86,6 +89,14 @@ function TimelineNode({
             whileInView={{ opacity: 0, scale: 5 }}
             viewport={view}
             transition={{ duration: 1.5, delay: 0.4, ease: 'easeOut' }}
+          />
+        ) : null}
+        {spark && !reduced ? (
+          <motion.span
+            className={s.spark}
+            initial={{ opacity: 1, scale: 0.25, rotate: 0 }}
+            animate={{ opacity: 0, scale: 1.9, rotate: 50 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
           />
         ) : null}
       </span>
@@ -125,6 +136,7 @@ function TimelineNode({
 export default function Timeline() {
   const reduced = useReducedMotion() ?? false
   const bodyRef = useRef<HTMLDivElement>(null)
+  const listRef = useRef<HTMLOListElement>(null)
 
   // The spine draws itself as the list crosses the viewport; a glowing tip
   // rides the fill front. Skipped entirely under reduced motion (static line).
@@ -135,6 +147,46 @@ export default function Timeline() {
   const fill = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.5 })
   const tipTop = useTransform(fill, (v) => `${Math.min(Math.max(v, 0), 1) * 100}%`)
   const tipOpacity = useTransform(fill, [0, 0.02, 0.97, 1], [0, 1, 1, 0])
+
+  // Node spark: when the tip's fill front passes a node, that node flicks a
+  // one-shot spark. Node offsets are measured from the DOM (they shift with
+  // era headers and viewport width), re-measured on resize.
+  const fractions = useRef<{ id: string; f: number }[]>([])
+  const fired = useRef<Record<string, boolean>>({})
+  const [sparked, setSparked] = useState<Record<string, boolean>>({})
+
+  useEffect(() => {
+    if (reduced) return
+    const body = bodyRef.current
+    const list = listRef.current
+    if (!body || !list) return
+    const measure = () => {
+      const bodyTop = body.getBoundingClientRect().top
+      const bh = body.scrollHeight
+      if (bh === 0) return
+      fractions.current = (Array.from(list.children) as HTMLElement[]).map((li) => {
+        const node = li.querySelector<HTMLElement>('[data-node]')
+        const top = node
+          ? node.getBoundingClientRect().top - bodyTop + 7
+          : li.offsetTop + 14
+        return { id: li.dataset.id ?? '', f: Math.min(Math.max(top / bh, 0), 1) }
+      })
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(body)
+    return () => ro.disconnect()
+  }, [reduced])
+
+  useMotionValueEvent(fill, 'change', (v) => {
+    if (reduced) return
+    for (const { id, f } of fractions.current) {
+      if (id && v >= f && !fired.current[id]) {
+        fired.current[id] = true
+        setSparked((prev) => ({ ...prev, [id]: true }))
+      }
+    }
+  })
 
   return (
     <section id="timeline" className={`section ${s.section}`} aria-labelledby="timeline-title">
@@ -161,9 +213,15 @@ export default function Timeline() {
             />
           ) : null}
 
-          <ol className={s.list}>
+          <ol className={s.list} ref={listRef}>
             {milestones.map((m, i) => (
-              <TimelineNode key={m.id} m={m} showEra={firstOfEra(i)} reduced={reduced} />
+              <TimelineNode
+                key={m.id}
+                m={m}
+                showEra={firstOfEra(i)}
+                reduced={reduced}
+                spark={!!sparked[m.id]}
+              />
             ))}
           </ol>
         </div>

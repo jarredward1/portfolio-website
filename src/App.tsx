@@ -1,4 +1,5 @@
 import Nav from './components/Nav/Nav'
+import ScrollProgress from './components/ui/ScrollProgress'
 import Hero from './components/Hero/Hero'
 import Timeline from './components/Timeline/Timeline'
 import Projects from './components/Projects/Projects'
@@ -12,6 +13,7 @@ export default function App() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
+      <ScrollProgress />
       <Nav />
       <main id="main">
         <Hero />

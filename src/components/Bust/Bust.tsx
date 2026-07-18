@@ -13,7 +13,24 @@ interface BustProps {
 export default function Bust({ reduced }: BustProps) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const pointer = useRef<BustPointer>({ wx: 0, wy: 0, cx: 0, cy: -10, inside: false })
+  const exitRef = useRef(0)
   const [active, setActive] = useState(true)
+
+  // Hero exit progress (0 at top, 1 once ~3/4 scrolled past) drives the
+  // ember dissolve. Cheap: one rect read per scroll event.
+  useEffect(() => {
+    if (reduced) return
+    const onScroll = () => {
+      const el = wrapRef.current
+      if (!el) return
+      const r = el.getBoundingClientRect()
+      if (r.height === 0) return
+      exitRef.current = Math.min(Math.max(-r.top / (r.height * 0.75), 0), 1)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [reduced])
 
   // Pause the render loop when the hero is scrolled out of view.
   useEffect(() => {
@@ -64,7 +81,7 @@ export default function Bust({ reduced }: BustProps) {
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         style={{ background: 'transparent' }}
       >
-        <BustPoints reduced={reduced} pointer={pointer} />
+        <BustPoints reduced={reduced} pointer={pointer} exit={exitRef} />
       </Canvas>
     </div>
   )

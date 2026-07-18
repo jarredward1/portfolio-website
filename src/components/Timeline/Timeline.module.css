@@ -151,6 +151,36 @@
   border: 1px solid var(--ember);
 }
 
+/* One-shot spark when the spine's tip reaches the node: two crossed rays
+   that flare, twist, and fade. */
+.spark {
+  position: absolute;
+  inset: -9px;
+  pointer-events: none;
+}
+
+.spark::before,
+.spark::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1.5px;
+  height: 130%;
+  translate: -50% -50%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--amber-hi) 35%,
+    var(--amber-hi) 65%,
+    transparent
+  );
+}
+
+.spark::after {
+  rotate: 90deg;
+}
+
 .next .nodeCore {
   border-style: dashed;
 }

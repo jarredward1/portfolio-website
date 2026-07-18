@@ -11,10 +11,12 @@ export const bustVertex = /* glsl */ `
   uniform float uHeadPitch;
   uniform vec2 uPointer;
   uniform float uForce;
+  uniform float uExit;
 
   varying float vShade;
   varying float vLp;
   varying float vDisturb;
+  varying float vRel;
 
   // Tuning knobs for the two interactions.
   const vec3 HEAD_PIVOT = vec3(0.0, 0.05, 0.0); // neck joint, world units (measured from the matte)
@@ -91,6 +93,16 @@ export const bustVertex = /* glsl */ `
     pos.z += str * POINTER_STRENGTH * 0.6 * (aRandom - 0.35);
     vDisturb = influence;
 
+    // Scroll dissolve: as the hero scrolls away the embers release upward
+    // like sparks off a fire, staggered per point, and reassemble on the
+    // way back. uExit is 0 at the top of the page and 1 once the hero is
+    // mostly gone.
+    float rel = uExit * (0.3 + aRandom * 0.7);
+    pos.y += rel * rel * 2.4;
+    pos.x += (aRandom - 0.5) * rel * 1.2;
+    pos.z += sin(aRandom * 31.4) * rel * 0.9;
+    vRel = rel;
+
     vec4 mv = modelViewMatrix * vec4(pos, 1.0);
     gl_Position = projectionMatrix * mv;
 
@@ -116,6 +128,7 @@ export const bustFragment = /* glsl */ `
   varying float vShade;
   varying float vLp;
   varying float vDisturb;
+  varying float vRel;
 
   void main() {
     vec2 uv = gl_PointCoord - 0.5;
@@ -133,6 +146,8 @@ export const bustFragment = /* glsl */ `
     // Stirred embers glow hotter while displaced by the cursor.
     float bright = mix(0.42, 1.52, pow(t, 0.9)) + vDisturb * 0.55;
     float alpha = mask * vLp * uOpacity * mix(0.55, 1.0, t);
+    // Released sparks fade out as they rise.
+    alpha *= 1.0 - smoothstep(0.35, 0.85, vRel);
 
     gl_FragColor = vec4(col * bright, alpha);
   }
