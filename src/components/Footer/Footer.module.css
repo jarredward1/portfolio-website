@@ -1,6 +1,40 @@
 .footer {
-  border-top: 1px solid var(--line-1);
-  padding-block: 2rem;
+  padding-block: 3.5rem 2rem;
+}
+
+/* ---------- end-of-file sign-off ---------- */
+
+.signoff {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  margin-bottom: 2.75rem;
+}
+
+.signRule {
+  width: min(360px, 70%);
+  height: 1px;
+  background: var(--grad);
+  transform-origin: center;
+  opacity: 0.85;
+}
+
+.signMark {
+  width: 22px;
+  height: 22px;
+  overflow: visible;
+}
+
+.signMark path {
+  stroke: var(--amber-hi);
+  stroke-width: 1.5;
+}
+
+.signText {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
 }
 
 .inner {

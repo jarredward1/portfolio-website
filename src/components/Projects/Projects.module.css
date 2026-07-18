@@ -43,10 +43,49 @@
   background: var(--bg-1);
   border: 1px solid var(--line-1);
   border-radius: 8px;
+  overflow: hidden;
   transition:
     transform 0.2s var(--ease-out),
     border-color 0.2s,
     background 0.2s;
+}
+
+/* Acquisition scan: one light band sweeps the card face when the reticle
+   locks on (hover). Runs once per hover via `forwards`. */
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -52px;
+  height: 52px;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(240, 160, 53, 0.09) 45%,
+    rgba(252, 233, 200, 0.16) 62%,
+    rgba(240, 160, 53, 0.05) 78%,
+    transparent
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card:hover::before {
+  animation: cardScan 0.7s ease-out forwards;
+}
+
+@keyframes cardScan {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(480px);
+  }
 }
 
 /* Gradient border on hover via a masked pseudo-element. */
@@ -257,6 +296,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .section::before {
+    animation: none;
+  }
+
+  .card:hover::before {
     animation: none;
   }
 }

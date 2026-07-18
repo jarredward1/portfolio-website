@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import BustPoints, { type BustPointer } from './BustPoints'
+import BustPoints, { type BustPointer, type BustPulse } from './BustPoints'
 
 interface BustProps {
   reduced: boolean
@@ -14,7 +14,28 @@ export default function Bust({ reduced }: BustProps) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const pointer = useRef<BustPointer>({ wx: 0, wy: 0, cx: 0, cy: -10, inside: false })
   const exitRef = useRef(0)
+  const pulseRef = useRef<BustPulse>({ cx: 0, cy: 0, at: 0 })
   const [active, setActive] = useState(true)
+
+  // Tap or click anywhere over the bust fires a shockwave ring. Works for
+  // touch and mouse alike; this is the mobile analog of the cursor break-up.
+  useEffect(() => {
+    if (reduced) return
+    const onDown = (e: PointerEvent) => {
+      const el = wrapRef.current
+      if (!el) return
+      const r = el.getBoundingClientRect()
+      if (r.width === 0 || r.height === 0) return
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom)
+        return
+      const p = pulseRef.current
+      p.cx = ((e.clientX - r.left) / r.width) * 2 - 1
+      p.cy = -(((e.clientY - r.top) / r.height) * 2 - 1)
+      p.at = performance.now()
+    }
+    window.addEventListener('pointerdown', onDown, { passive: true })
+    return () => window.removeEventListener('pointerdown', onDown)
+  }, [reduced])
 
   // Hero exit progress (0 at top, 1 once ~3/4 scrolled past) drives the
   // ember dissolve. Cheap: one rect read per scroll event.
@@ -81,7 +102,7 @@ export default function Bust({ reduced }: BustProps) {
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         style={{ background: 'transparent' }}
       >
-        <BustPoints reduced={reduced} pointer={pointer} exit={exitRef} />
+        <BustPoints reduced={reduced} pointer={pointer} exit={exitRef} pulse={pulseRef} />
       </Canvas>
     </div>
   )

@@ -38,9 +38,18 @@ function TimelineNode({
 }) {
   const era = eraLabel[m.era]
   const view = { once: true, margin: '-80px' } as const
+  const liRef = useRef<HTMLLIElement>(null)
+
+  // The ghost numeral counter-scrolls a few pixels slower than the page,
+  // giving the timeline a depth plane. Skipped under reduced motion.
+  const { scrollYProgress: itemProgress } = useScroll({
+    target: liRef,
+    offset: ['start end', 'end start'],
+  })
+  const ghostY = useTransform(itemProgress, [0, 1], [38, -38])
 
   return (
-    <li className={`${s.item} ${s[m.era]}`} data-id={m.id}>
+    <li ref={liRef} className={`${s.item} ${s[m.era]}`} data-id={m.id}>
       {showEra && era ? (
         <motion.p
           className={s.era}
@@ -56,6 +65,7 @@ function TimelineNode({
       <motion.span
         className={s.ghost}
         aria-hidden="true"
+        style={reduced ? undefined : { y: ghostY }}
         initial={{ opacity: 0, x: reduced ? 0 : 44 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={view}
@@ -100,6 +110,13 @@ function TimelineNode({
           >
             <span className={s.sparkCross} />
           </motion.span>
+        ) : null}
+        {m.era === 'pivot' ? (
+          <span className={s.orbits} aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </span>
         ) : null}
       </span>
 

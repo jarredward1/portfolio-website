@@ -12,11 +12,14 @@ export const bustVertex = /* glsl */ `
   uniform vec2 uPointer;
   uniform float uForce;
   uniform float uExit;
+  uniform vec2 uPulseOrigin;
+  uniform float uPulseTime;
 
   varying float vShade;
   varying float vLp;
   varying float vDisturb;
   varying float vRel;
+  varying float vScan;
 
   // Tuning knobs for the two interactions.
   const vec3 HEAD_PIVOT = vec3(0.0, 0.05, 0.0); // neck joint, world units (measured from the matte)
@@ -107,6 +110,26 @@ export const bustVertex = /* glsl */ `
     pos.y += sin(uTime * 2.2 + aRandom * 40.0) * rel * 0.3;
     vRel = rel;
 
+    // Periodic scan sweep: a thin band walks down the portrait every 20s
+    // (first pass ~6s after load), flaring the embers it crosses. Negative
+    // pre-roll times land late in the cycle, so nothing fires early.
+    float scanCycle = mod(uTime - 6.0, 20.0);
+    float scanPos = 1.9 - (scanCycle / 3.2) * 3.8;
+    float scan = (1.0 - uReduced) * step(scanCycle, 3.2)
+      * smoothstep(0.22, 0.0, abs(formed.y - scanPos));
+    pos.z += scan * 0.09;
+    vScan = scan;
+
+    // Tap/click shockwave: an expanding ring that shoves embers outward
+    // and decays over ~2.5s. uPulseTime idles at a large value.
+    float pd = distance(pos.xy, uPulseOrigin);
+    float waveR = uPulseTime * 2.6;
+    float ring = smoothstep(0.6, 0.0, abs(pd - waveR)) * exp(-uPulseTime * 1.2);
+    vec2 pdir = (pos.xy - uPulseOrigin) / max(pd, 1e-3);
+    pos.xy += pdir * ring * 0.55;
+    pos.z += ring * 0.4 * (aRandom - 0.3);
+    vDisturb = max(vDisturb, ring * 1.2);
+
     vec4 mv = modelViewMatrix * vec4(pos, 1.0);
     gl_Position = projectionMatrix * mv;
 
@@ -133,6 +156,7 @@ export const bustFragment = /* glsl */ `
   varying float vLp;
   varying float vDisturb;
   varying float vRel;
+  varying float vScan;
 
   void main() {
     vec2 uv = gl_PointCoord - 0.5;
@@ -147,9 +171,13 @@ export const bustFragment = /* glsl */ `
     col = mix(col, uColorC, smoothstep(0.38, 0.72, t));
     col = mix(col, uColorD, smoothstep(0.72, 0.96, t));
 
-    // Stirred embers glow hotter while displaced by the cursor, and flare
-    // white-hot while being torn away by the scroll dissolve.
-    float bright = mix(0.42, 1.52, pow(t, 0.9)) + vDisturb * 0.55 + vRel * 1.1;
+    // The scan line pushes crossed embers toward pale gold.
+    col = mix(col, uColorD, vScan * 0.6);
+
+    // Stirred embers glow hotter while displaced by the cursor, flare
+    // white-hot while torn away by the scroll dissolve, and flash as the
+    // scan sweep crosses them.
+    float bright = mix(0.42, 1.52, pow(t, 0.9)) + vDisturb * 0.55 + vRel * 1.1 + vScan * 1.6;
     float alpha = mask * vLp * uOpacity * mix(0.55, 1.0, t);
     // Released sparks burn out late in their flight.
     alpha *= 1.0 - smoothstep(0.42, 0.92, vRel);

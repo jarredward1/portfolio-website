@@ -26,14 +26,24 @@ export interface BustPointer {
   inside: boolean
 }
 
+export interface BustPulse {
+  /** Canvas-normalized tap point (-1..1, y up). */
+  cx: number
+  cy: number
+  /** performance.now() when the tap landed; 0 means no pulse yet. */
+  at: number
+}
+
 interface BustPointsProps {
   reduced: boolean
   pointer: React.RefObject<BustPointer>
   /** 0 at the top of the page, 1 once the hero has mostly scrolled away. */
   exit: React.RefObject<number>
+  /** Latest tap/click on the bust, driving the shockwave ring. */
+  pulse: React.RefObject<BustPulse>
 }
 
-export default function BustPoints({ reduced, pointer, exit }: BustPointsProps) {
+export default function BustPoints({ reduced, pointer, exit, pulse }: BustPointsProps) {
   const { gl, invalidate } = useThree()
   const matRef = useRef<THREE.ShaderMaterial>(null)
   const [samples, setSamples] = useState<BustSamples | null>(null)
@@ -81,6 +91,8 @@ export default function BustPoints({ reduced, pointer, exit }: BustPointsProps) 
       uPointer: { value: new THREE.Vector2(0, -10) },
       uForce: { value: 0 },
       uExit: { value: 0 },
+      uPulseOrigin: { value: new THREE.Vector2(0, 0) },
+      uPulseTime: { value: 99 },
       uColorA: { value: SHADOW },
       uColorB: { value: EMBER },
       uColorC: { value: AMBER },
@@ -154,6 +166,17 @@ export default function BustPoints({ reduced, pointer, exit }: BustPointsProps) 
         exit.current ?? 0,
         9,
         dt,
+      )
+    }
+
+    // Tap shockwave: convert the stored tap point to world units and let the
+    // shader's ring expand from it.
+    const pl = pulse.current
+    if (!reduced && pl && pl.at > 0) {
+      mat.uniforms.uPulseTime.value = (performance.now() - pl.at) / 1000
+      mat.uniforms.uPulseOrigin.value.set(
+        (pl.cx * state.viewport.width) / 2,
+        (pl.cy * state.viewport.height) / 2,
       )
     }
   })
