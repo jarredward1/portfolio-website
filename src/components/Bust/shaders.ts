@@ -93,14 +93,18 @@ export const bustVertex = /* glsl */ `
     pos.z += str * POINTER_STRENGTH * 0.6 * (aRandom - 0.35);
     vDisturb = influence;
 
-    // Scroll dissolve: as the hero scrolls away the embers release upward
-    // like sparks off a fire, staggered per point, and reassemble on the
-    // way back. uExit is 0 at the top of the page and 1 once the hero is
-    // mostly gone.
-    float rel = uExit * (0.3 + aRandom * 0.7);
-    pos.y += rel * rel * 2.4;
-    pos.x += (aRandom - 0.5) * rel * 1.2;
-    pos.z += sin(aRandom * 31.4) * rel * 0.9;
+    // Scroll dissolve: as the hero scrolls away the embers are RIPPED
+    // upward in turbulent, noise-driven gusts, then reassemble on the way
+    // back. uExit is 0 at the top of the page and 1 once the hero is
+    // mostly gone. Wide per-point speed variance plus coherent gusts make
+    // the tear-off violent instead of a gentle drift.
+    float rel = uExit * (0.2 + aRandom * 0.9);
+    float gust = vnoise(formed.xy * 1.7 + uTime * 0.45);
+    float rAng = aRandom * 6.2831 + gust * 3.5;
+    pos.y += rel * rel * (3.4 + gust * 2.4);
+    pos.x += cos(rAng) * rel * (1.7 + gust * 1.5);
+    pos.z += sin(rAng * 1.3) * rel * 1.7;
+    pos.y += sin(uTime * 2.2 + aRandom * 40.0) * rel * 0.3;
     vRel = rel;
 
     vec4 mv = modelViewMatrix * vec4(pos, 1.0);
@@ -143,11 +147,12 @@ export const bustFragment = /* glsl */ `
     col = mix(col, uColorC, smoothstep(0.38, 0.72, t));
     col = mix(col, uColorD, smoothstep(0.72, 0.96, t));
 
-    // Stirred embers glow hotter while displaced by the cursor.
-    float bright = mix(0.42, 1.52, pow(t, 0.9)) + vDisturb * 0.55;
+    // Stirred embers glow hotter while displaced by the cursor, and flare
+    // white-hot while being torn away by the scroll dissolve.
+    float bright = mix(0.42, 1.52, pow(t, 0.9)) + vDisturb * 0.55 + vRel * 1.1;
     float alpha = mask * vLp * uOpacity * mix(0.55, 1.0, t);
-    // Released sparks fade out as they rise.
-    alpha *= 1.0 - smoothstep(0.35, 0.85, vRel);
+    // Released sparks burn out late in their flight.
+    alpha *= 1.0 - smoothstep(0.42, 0.92, vRel);
 
     gl_FragColor = vec4(col * bright, alpha);
   }

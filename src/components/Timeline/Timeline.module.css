@@ -151,33 +151,60 @@
   border: 1px solid var(--ember);
 }
 
-/* One-shot spark when the spine's tip reaches the node: two crossed rays
-   that flare, twist, and fade. */
+/* One-shot spark when the spine's tip reaches the node: a hot core flash
+   plus an eight-point star of rays that flares, twists, and burns out. */
 .spark {
   position: absolute;
-  inset: -9px;
+  inset: -18px;
   pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(240, 160, 53, 0.9) 0%,
+    rgba(205, 74, 22, 0.4) 28%,
+    transparent 60%
+  );
+  box-shadow: 0 0 26px 6px rgba(240, 160, 53, 0.35);
 }
 
 .spark::before,
-.spark::after {
+.spark::after,
+.sparkCross::before,
+.sparkCross::after {
   content: '';
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 1.5px;
-  height: 130%;
+  width: 2px;
+  height: 165%;
   translate: -50% -50%;
   background: linear-gradient(
     180deg,
     transparent,
-    var(--amber-hi) 35%,
-    var(--amber-hi) 65%,
+    var(--amber-hi) 32%,
+    #fce9c8 50%,
+    var(--amber-hi) 68%,
     transparent
   );
 }
 
 .spark::after {
+  rotate: 90deg;
+}
+
+.sparkCross {
+  position: absolute;
+  inset: 0;
+  rotate: 45deg;
+}
+
+.sparkCross::before,
+.sparkCross::after {
+  height: 120%;
+  opacity: 0.75;
+}
+
+.sparkCross::after {
   rotate: 90deg;
 }
 

@@ -94,10 +94,12 @@ function TimelineNode({
         {spark && !reduced ? (
           <motion.span
             className={s.spark}
-            initial={{ opacity: 1, scale: 0.25, rotate: 0 }}
-            animate={{ opacity: 0, scale: 1.9, rotate: 50 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-          />
+            initial={{ opacity: 1, scale: 0.15, rotate: 0 }}
+            animate={{ opacity: [1, 1, 0], scale: [0.15, 1.7, 2.9], rotate: 75 }}
+            transition={{ duration: 0.85, times: [0, 0.4, 1], ease: 'easeOut' }}
+          >
+            <span className={s.sparkCross} />
+          </motion.span>
         ) : null}
       </span>
 

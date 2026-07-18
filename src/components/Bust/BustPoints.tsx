@@ -152,7 +152,7 @@ export default function BustPoints({ reduced, pointer, exit }: BustPointsProps) 
       mat.uniforms.uExit.value = THREE.MathUtils.damp(
         mat.uniforms.uExit.value,
         exit.current ?? 0,
-        6,
+        9,
         dt,
       )
     }

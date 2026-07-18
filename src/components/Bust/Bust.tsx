@@ -25,7 +25,7 @@ export default function Bust({ reduced }: BustProps) {
       if (!el) return
       const r = el.getBoundingClientRect()
       if (r.height === 0) return
-      exitRef.current = Math.min(Math.max(-r.top / (r.height * 0.75), 0), 1)
+      exitRef.current = Math.min(Math.max(-r.top / (r.height * 0.6), 0), 1)
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
