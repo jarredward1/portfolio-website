@@ -2,6 +2,7 @@ export const bustVertex = /* glsl */ `
   attribute vec3 aScatter;
   attribute float aRandom;
   attribute float aShade;
+  attribute float aSizeFix;
 
   uniform float uProgress;
   uniform float uTime;
@@ -14,6 +15,7 @@ export const bustVertex = /* glsl */ `
   uniform float uExit;
   uniform vec2 uPulseOrigin;
   uniform float uPulseTime;
+  uniform float uThemeMix;
 
   varying float vShade;
   varying float vLp;
@@ -64,7 +66,12 @@ export const bustVertex = /* glsl */ `
     // ~y=+0.30 and the collar flare starts ~y=+0.08, so the weight is fully
     // zero before any shirt or jacket pixels. Only the head and beard turn.
     float w = smoothstep(0.02, 0.28, formed.y);
-    float yaw = (uHeadYaw + sin(uTime * 0.22) * 0.035 * (1.0 - uReduced)) * w;
+    // The idle sway is gated off in the light theme: with the inflated depth,
+    // a constant micro-yaw slides different-depth particles across each other
+    // on screen, which normal-blended ink renders as mottle (additive embers
+    // absorb it). Ink on paper holds still; the pointer-driven turn remains.
+    float sway = sin(uTime * 0.22) * 0.035 * (1.0 - uReduced) * (1.0 - uThemeMix);
+    float yaw = (uHeadYaw + sway) * w;
     float pitch = uHeadPitch * w;
     vec3 p = formed - HEAD_PIVOT;
     float cy = cos(yaw);
@@ -134,7 +141,9 @@ export const bustVertex = /* glsl */ `
     gl_Position = projectionMatrix * mv;
 
     float sizeFade = mix(0.35, 1.0, lp);
-    gl_PointSize = uSize * sizeFade * (1.0 / -mv.z);
+    // aSizeFix cancels the formed portrait's perspective size gain (bulged
+    // points sit nearer the camera); motion still gets true perspective.
+    gl_PointSize = uSize * sizeFade * aSizeFix * (1.0 / -mv.z);
 
     // Tonal parameter: the photo's luminance drives everything. A tiny
     // per-point nudge breaks up flat regions so they shimmer like embers.

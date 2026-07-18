@@ -21,8 +21,10 @@ const L_AMBER = new THREE.Color('#b34c12')
 const L_GOLD = new THREE.Color('#dfa050')
 const HOT = new THREE.Color('#e83c0f')
 
-// How far the head turns to follow the cursor (radians).
-const HEAD_YAW_MAX = 0.42
+// How far the head turns to follow the cursor (radians). The silhouette
+// inflation gives the head real roundness, so it can turn a touch further
+// than the flat relief could before revealing itself as a sheet.
+const HEAD_YAW_MAX = 0.5
 const HEAD_PITCH_MAX = 0.17
 
 export interface BustPointer {
@@ -72,6 +74,7 @@ export default function BustPoints({ reduced, pointer, exit, pulse }: BustPoints
       alphaThreshold: 40,
       worldHeight: WORLD_HEIGHT,
       depth: 0.1,
+      inflateDepth: 0.17,
       scatterRadius: 2.6,
     }).then((s) => {
       if (alive) setSamples(s)
@@ -88,6 +91,7 @@ export default function BustPoints({ reduced, pointer, exit, pulse }: BustPoints
     g.setAttribute('aScatter', new THREE.BufferAttribute(samples.scatter, 3))
     g.setAttribute('aRandom', new THREE.BufferAttribute(samples.random, 1))
     g.setAttribute('aShade', new THREE.BufferAttribute(samples.shade, 1))
+    g.setAttribute('aSizeFix', new THREE.BufferAttribute(samples.sizeFix, 1))
     return g
   }, [samples])
 
