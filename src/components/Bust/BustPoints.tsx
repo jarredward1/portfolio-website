@@ -12,8 +12,8 @@ const AMBER = new THREE.Color('#e8912f')
 const GOLD = new THREE.Color('#f6c87a')
 
 // How far the head turns to follow the cursor (radians).
-const HEAD_YAW_MAX = 0.3
-const HEAD_PITCH_MAX = 0.12
+const HEAD_YAW_MAX = 0.42
+const HEAD_PITCH_MAX = 0.17
 
 export interface BustPointer {
   /** Window-normalized cursor (-1..1), drives the head turn. */

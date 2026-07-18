@@ -17,9 +17,25 @@ export const bustVertex = /* glsl */ `
   varying float vDisturb;
 
   // Tuning knobs for the two interactions.
-  const vec3 HEAD_PIVOT = vec3(0.0, -0.5, 0.0); // neck joint, world units
-  const float POINTER_RADIUS = 0.42;            // size of the break-apart zone
-  const float POINTER_STRENGTH = 0.4;           // how far particles flee
+  const vec3 HEAD_PIVOT = vec3(0.0, -0.42, 0.0); // neck joint, world units
+  const float POINTER_RADIUS = 0.42;            // base size of the break-apart zone
+  const float POINTER_STRENGTH = 0.44;          // how far particles flee
+
+  // Cheap value noise: spatially coherent, so the break-apart tears in
+  // clumps and shards instead of forming a clean circle.
+  float hash21(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+  }
+  float vnoise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = hash21(i);
+    float b = hash21(i + vec2(1.0, 0.0));
+    float c = hash21(i + vec2(0.0, 1.0));
+    float d = hash21(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+  }
 
   void main() {
     // Per-point staggered assembly from scatter origin to formed position.
@@ -39,7 +55,7 @@ export const bustVertex = /* glsl */ `
     // ramps from 0 at the shoulders to 1 at the face, so the neck twists
     // instead of the head shearing off the torso. A faint time-based sway
     // keeps the head alive when the cursor is still.
-    float w = smoothstep(-0.62, -0.08, formed.y);
+    float w = smoothstep(-0.42, -0.12, formed.y);
     float yaw = (uHeadYaw + sin(uTime * 0.22) * 0.035 * (1.0 - uReduced)) * w;
     float pitch = uHeadPitch * w;
     vec3 p = formed - HEAD_PIVOT;
@@ -53,14 +69,21 @@ export const bustVertex = /* glsl */ `
 
     vec3 pos = mix(position + aScatter, formed, lp);
 
-    // Pointer repulsion: embers scatter out of the cursor's path and heal
-    // behind it. Per-point variation keeps the break-up organic, and gating
-    // by lp stops it from fighting the assembly animation.
+    // Pointer repulsion: an ABSTRACT break, not a clean circle. Coherent
+    // noise makes the reach ragged (clumps tear away while neighbors hold),
+    // slowly crawls over time, and bends each shard's escape direction away
+    // from pure radial. Gating by lp stops it fighting the assembly.
     vec2 dp = pos.xy - uPointer;
     float dist = length(dp);
-    float influence = uForce * lp * smoothstep(POINTER_RADIUS, POINTER_RADIUS * 0.12, dist);
-    float str = influence * influence * (0.55 + aRandom * 0.75);
-    vec2 dir = dp / max(dist, 1e-3);
+    float n = vnoise(formed.xy * 3.2 + uTime * 0.18);
+    float reach = POINTER_RADIUS * (0.55 + n * 1.15);
+    float influence = uForce * lp * smoothstep(reach, reach * 0.1, dist) * (0.45 + n);
+    float str = influence * influence * (0.5 + aRandom * 0.8);
+    float ang = (n - 0.5) * 2.2 + (aRandom - 0.5) * 1.1;
+    vec2 dirR = dp / max(dist, 1e-3);
+    float ca = cos(ang);
+    float sa = sin(ang);
+    vec2 dir = vec2(ca * dirR.x - sa * dirR.y, sa * dirR.x + ca * dirR.y);
     pos.xy += dir * str * POINTER_STRENGTH;
     pos.z += str * POINTER_STRENGTH * 0.6 * (aRandom - 0.35);
     vDisturb = influence;
