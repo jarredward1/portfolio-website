@@ -52,10 +52,7 @@ export default function Contact() {
           <h2 id="contact-title" className={s.headline}>
             Open to GRC and vulnerability-management roles.
           </h2>
-          <p className={s.sub}>
-            Based in the Atlanta metro. Email is the fastest way to reach me, or connect on
-            LinkedIn.
-          </p>
+          <p className={s.sub}>Email is the fastest way to reach me, or connect on LinkedIn.</p>
 
           <div className={s.emailRow}>
             <a className={s.email} href={`mailto:${site.email}`}>
