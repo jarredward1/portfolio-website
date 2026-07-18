@@ -209,6 +209,12 @@
   .lead {
     color: var(--ink-1);
   }
+
+  /* Bio copy runs longer than the cue's fixed bottom offset was sized for
+     on short viewports, and mobile users don't need a scroll hint anyway. */
+  .scrollCue {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {

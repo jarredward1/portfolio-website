@@ -7,5 +7,5 @@ export const site = {
   githubUser: 'jarredward1',
   location: 'Atlanta metro · Mableton, GA',
   resumePath: '/resume/Jarred-Ward-Resume.pdf',
-  hook: 'Twelve years of command decisions under pressure, now applied to vulnerability management and audit-ready security programs.',
+  hook: 'I close vulnerability gaps and build GRC programs across NIST SP 800-53, PCI DSS, and ISO 27001. Twelve years in corrections built that discipline, where the margin for error was narrow. Nothing is fully secure, so the work turns gaps into clear, accountable action.',
 } as const
