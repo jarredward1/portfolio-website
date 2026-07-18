@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
+import { getTheme, subscribeTheme } from '../../theme'
 import { sampleBust, type BustSamples } from './sampleBust'
 import { bustVertex, bustFragment } from './shaders'
 import bustSrc from '../../assets/bust-source.png'
@@ -10,6 +11,15 @@ const SHADOW = new THREE.Color('#801622')
 const EMBER = new THREE.Color('#cd4a16')
 const AMBER = new THREE.Color('#e8912f')
 const GOLD = new THREE.Color('#f6c87a')
+
+// Light theme: the same portrait as ink on paper. Shadows are near-black
+// oxblood (they carry the image once blending is no longer additive) and
+// highlights ease toward warm sand, fading into the page.
+const L_SHADOW = new THREE.Color('#310a10')
+const L_EMBER = new THREE.Color('#7c1e0b')
+const L_AMBER = new THREE.Color('#b34c12')
+const L_GOLD = new THREE.Color('#dfa050')
+const HOT = new THREE.Color('#e83c0f')
 
 // How far the head turns to follow the cursor (radians).
 const HEAD_YAW_MAX = 0.42
@@ -49,6 +59,8 @@ export default function BustPoints({ reduced, pointer, exit, pulse }: BustPoints
   const [samples, setSamples] = useState<BustSamples | null>(null)
   const progress = useRef(0)
   const startAt = useRef<number | null>(null)
+  const theme = useSyncExternalStore(subscribeTheme, getTheme)
+  const light = theme === 'light'
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 760
   const dpr = Math.min(gl.getPixelRatio(), 2)
@@ -93,14 +105,30 @@ export default function BustPoints({ reduced, pointer, exit, pulse }: BustPoints
       uExit: { value: 0 },
       uPulseOrigin: { value: new THREE.Vector2(0, 0) },
       uPulseTime: { value: 99 },
-      uColorA: { value: SHADOW },
-      uColorB: { value: EMBER },
-      uColorC: { value: AMBER },
-      uColorD: { value: GOLD },
+      uColorA: { value: SHADOW.clone() },
+      uColorB: { value: EMBER.clone() },
+      uColorC: { value: AMBER.clone() },
+      uColorD: { value: GOLD.clone() },
+      uThemeMix: { value: 0 },
+      uColorHot: { value: HOT },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dpr, isMobile],
   )
+
+  // Theme swap: retarget the ramp uniforms and flip the blend mode. Additive
+  // blending is what makes the embers glow on dark; on paper it would wash
+  // out to nothing, so light mode draws the same points as normal-blended ink.
+  useEffect(() => {
+    const u = matRef.current?.uniforms
+    if (!u) return
+    u.uThemeMix.value = light ? 1 : 0
+    ;(u.uColorA.value as THREE.Color).copy(light ? L_SHADOW : SHADOW)
+    ;(u.uColorB.value as THREE.Color).copy(light ? L_EMBER : EMBER)
+    ;(u.uColorC.value as THREE.Color).copy(light ? L_AMBER : AMBER)
+    ;(u.uColorD.value as THREE.Color).copy(light ? L_GOLD : GOLD)
+    invalidate()
+  }, [light, samples, invalidate])
 
   useEffect(() => {
     if (reduced && matRef.current) {
@@ -194,7 +222,7 @@ export default function BustPoints({ reduced, pointer, exit, pulse }: BustPoints
           fragmentShader={bustFragment}
           transparent
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          blending={light ? THREE.NormalBlending : THREE.AdditiveBlending}
         />
       </points>
     </group>

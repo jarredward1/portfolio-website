@@ -124,3 +124,9 @@
     margin-left: auto;
   }
 }
+
+/* ---------- light theme ---------- */
+
+:global([data-theme='light']) .scrolled {
+  background: rgba(244, 241, 234, 0.85);
+}

@@ -70,6 +70,27 @@ export function ArrowRight({ size = 16 }: IconProps) {
   )
 }
 
+/* Theme toggle: the site's diamond motif doing the job of the classic
+   half-filled contrast glyph. */
+export function ThemeIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M12 2.75 21.25 12 12 21.25 2.75 12Z" />
+      <path d="M12 2.75 21.25 12 12 21.25Z" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
 export function DownloadIcon({ size = 16 }: IconProps) {
   return (
     <svg

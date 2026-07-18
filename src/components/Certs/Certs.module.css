@@ -172,3 +172,38 @@
     grid-column: 1;
   }
 }
+
+/* ---------- light theme ---------- */
+
+:global([data-theme='light']) .row:hover {
+  background: rgba(235, 231, 221, 0.7);
+}
+
+:global([data-theme='light']) .rowIndex {
+  -webkit-text-stroke: 1px rgba(29, 27, 23, 0.18);
+}
+
+/* The CISSP pulse ripples rust instead of amber on paper. */
+:global([data-theme='light']) .pulse {
+  animation-name: pulseLight;
+}
+
+@keyframes pulseLight {
+  0% {
+    box-shadow: 0 0 0 0 rgba(150, 67, 10, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(150, 67, 10, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(150, 67, 10, 0);
+  }
+}
+
+/* The light-theme animation-name override outranks the earlier reduced-motion
+   kill, so repeat the kill at matching specificity. */
+@media (prefers-reduced-motion: reduce) {
+  :global([data-theme='light']) .pulse {
+    animation: none;
+  }
+}

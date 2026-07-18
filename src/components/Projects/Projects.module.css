@@ -309,3 +309,26 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- light theme ---------- */
+
+/* The acquisition scan is a band of light on dark cards; on paper it sweeps
+   as a band of rust shadow instead. */
+:global([data-theme='light']) .card::before {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(150, 67, 10, 0.1) 45%,
+    rgba(124, 30, 11, 0.16) 62%,
+    rgba(150, 67, 10, 0.06) 78%,
+    transparent
+  );
+}
+
+:global([data-theme='light']) .index {
+  -webkit-text-stroke: 1px rgba(29, 27, 23, 0.13);
+}
+
+:global([data-theme='light']) .card:hover .index {
+  -webkit-text-stroke-color: rgba(150, 67, 10, 0.35);
+}

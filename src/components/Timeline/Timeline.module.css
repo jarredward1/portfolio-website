@@ -464,3 +464,65 @@
     display: none;
   }
 }
+
+/* ---------- light theme ---------- */
+
+/* Glow effects are authored as amber light on dark; on paper the halos and
+   flashes deepen to rust-and-ember ink so they read as heat, not haze. */
+:global([data-theme='light']) .fillLine {
+  box-shadow: 0 0 12px rgba(205, 74, 22, 0.22);
+}
+
+:global([data-theme='light']) .tip {
+  box-shadow:
+    0 0 6px 1px rgba(150, 67, 10, 0.55),
+    0 0 22px 6px rgba(150, 67, 10, 0.25);
+}
+
+:global([data-theme='light']) .spark {
+  background: radial-gradient(
+    circle,
+    rgba(214, 64, 12, 0.85) 0%,
+    rgba(150, 40, 8, 0.4) 28%,
+    transparent 60%
+  );
+  box-shadow: 0 0 26px 6px rgba(214, 64, 12, 0.3);
+}
+
+:global([data-theme='light']) .spark::before,
+:global([data-theme='light']) .spark::after,
+:global([data-theme='light']) .sparkCross::before,
+:global([data-theme='light']) .sparkCross::after {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(178, 52, 10, 0.9) 32%,
+    #e83c0f 50%,
+    rgba(178, 52, 10, 0.9) 68%,
+    transparent
+  );
+}
+
+:global([data-theme='light']) .orbits span {
+  box-shadow: 0 0 6px 1px rgba(150, 67, 10, 0.35);
+}
+
+:global([data-theme='light']) .ghost {
+  -webkit-text-stroke-color: rgba(29, 27, 23, 0.11);
+}
+
+:global([data-theme='light']) .pivot .ghost {
+  -webkit-text-stroke-color: rgba(150, 67, 10, 0.3);
+}
+
+:global([data-theme='light']) .card::before {
+  background: linear-gradient(90deg, transparent 4%, rgba(255, 255, 255, 0.55), transparent 96%);
+}
+
+:global([data-theme='light']) .card:hover {
+  box-shadow: 0 18px 44px -20px rgba(74, 55, 24, 0.28);
+}
+
+:global([data-theme='light']) .date {
+  background: rgba(244, 241, 234, 0.65);
+}

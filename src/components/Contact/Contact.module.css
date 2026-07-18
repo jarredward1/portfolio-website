@@ -158,3 +158,12 @@
     animation: none;
   }
 }
+
+/* ---------- light theme ---------- */
+
+/* The bookend watermark is authored as glowing embers; on paper it deepens
+   toward ink and needs a touch more presence to survive the light ground. */
+:global([data-theme='light']) .section::after {
+  opacity: 0.1;
+  filter: brightness(0.5) saturate(1.3);
+}

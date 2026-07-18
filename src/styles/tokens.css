@@ -43,3 +43,25 @@
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+/* Light theme: warm paper instead of warm charcoal. The page becomes the
+   color the dark theme's ink was. Accents deepen so every pair keeps the
+   same contrast discipline the dark tokens document (7:1 secondary text,
+   4.5:1 minimum smalls, crimson decorative-only). Dark stays the default;
+   this block only exists once a visitor opts in. */
+:root[data-theme='light'] {
+  --bg-0: #f4f1ea;
+  --bg-1: #ebe7dd;
+  --bg-2: #e2ddcf;
+  --line-1: #dcd6c8;
+  --line-2: #c6bfad;
+
+  --ink-0: #1d1b17; /* 15.2:1 on bg-0 */
+  --ink-1: #514c44; /* 7.6:1 */
+  --ink-2: #6b665a; /* 5.1:1 on bg-0, 4.6:1 on bg-1 */
+
+  --crimson: #b91c2c; /* 5.7:1, large/decorative only, same as dark */
+  --ember: #cd4a16; /* 4.1:1, large/decorative */
+  --amber: #b45309; /* 4.5:1, deepened from dark's #d97706 */
+  --amber-hi: #96430a; /* 6:1 on bg-0, 5.5:1 on bg-1 — small accents, focus rings */
+}

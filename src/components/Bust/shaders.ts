@@ -151,6 +151,8 @@ export const bustFragment = /* glsl */ `
   uniform vec3 uColorC; // amber (high mids)
   uniform vec3 uColorD; // pale gold (highlights)
   uniform float uOpacity;
+  uniform float uThemeMix; // 0 = additive embers on dark, 1 = ink on paper
+  uniform vec3 uColorHot;  // light-theme flush for agitated particles
 
   varying float vShade;
   varying float vLp;
@@ -171,14 +173,22 @@ export const bustFragment = /* glsl */ `
     col = mix(col, uColorC, smoothstep(0.38, 0.72, t));
     col = mix(col, uColorD, smoothstep(0.72, 0.96, t));
 
-    // The scan line pushes crossed embers toward pale gold.
-    col = mix(col, uColorD, vScan * 0.6);
+    // The scan line pushes crossed embers toward pale gold (dark theme only;
+    // in light the agitation flush below takes over).
+    col = mix(col, uColorD, vScan * 0.6 * (1.0 - uThemeMix));
+
+    // Light theme: stirred, torn, or scanned ink flushes toward hot ember
+    // instead of brightening, because added light just fades into the paper.
+    float agitation = clamp(vDisturb * 0.7 + vRel * 0.9 + vScan * 0.8, 0.0, 1.0);
+    col = mix(col, uColorHot, uThemeMix * agitation);
 
     // Stirred embers glow hotter while displaced by the cursor, flare
     // white-hot while torn away by the scroll dissolve, and flash as the
-    // scan sweep crosses them.
-    float bright = mix(0.42, 1.52, pow(t, 0.9)) + vDisturb * 0.55 + vRel * 1.1 + vScan * 1.6;
-    float alpha = mask * vLp * uOpacity * mix(0.55, 1.0, t);
+    // scan sweep crosses them. On paper the multiplier stays near 1.0 and
+    // the tonal alpha inverts: ink shadows carry the image, not highlights.
+    float brightDark = mix(0.42, 1.52, pow(t, 0.9)) + vDisturb * 0.55 + vRel * 1.1 + vScan * 1.6;
+    float bright = mix(brightDark, mix(1.05, 0.9, t), uThemeMix);
+    float alpha = mask * vLp * uOpacity * mix(mix(0.55, 1.0, t), mix(1.0, 0.5, t), uThemeMix);
     // Released sparks burn out late in their flight.
     alpha *= 1.0 - smoothstep(0.42, 0.92, vRel);
 

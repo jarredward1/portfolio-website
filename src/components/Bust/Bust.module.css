@@ -13,3 +13,9 @@
   -webkit-mask-image: radial-gradient(ellipse at center, #000 60%, transparent 100%);
   mask-image: radial-gradient(ellipse at center, #000 60%, transparent 100%);
 }
+
+/* Light theme: deepen the glowing-ember poster toward ink so the static
+   fallback matches the live particles' paper treatment. */
+:global([data-theme='light']) .posterImg {
+  filter: brightness(0.52) saturate(1.35);
+}

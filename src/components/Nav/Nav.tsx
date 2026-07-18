@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { site } from '../../data/site'
-import { GitHubIcon, LinkedInIcon } from '../ui/Icons'
+import { getTheme, subscribeTheme, toggleTheme } from '../../theme'
+import { GitHubIcon, LinkedInIcon, ThemeIcon } from '../ui/Icons'
 import s from './Nav.module.css'
 
 const links = [
@@ -13,6 +14,7 @@ const links = [
 
 export default function Nav() {
   const reduced = useReducedMotion()
+  const theme = useSyncExternalStore(subscribeTheme, getTheme)
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState<string | null>(null)
   const vis = useRef<Record<string, boolean>>({})
@@ -75,6 +77,15 @@ export default function Nav() {
           ))}
         </nav>
         <div className={s.side}>
+          <button
+            type="button"
+            className={s.icon}
+            onClick={() => toggleTheme(reduced ?? false)}
+            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            title={theme === 'dark' ? 'Light theme' : 'Dark theme'}
+          >
+            <ThemeIcon size={17} />
+          </button>
           <a
             className={s.icon}
             href={site.linkedin}

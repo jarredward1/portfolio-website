@@ -59,6 +59,20 @@ body::after {
   background-size: 160px 160px;
 }
 
+/* Light theme: the blueprint grid flips to warm ink lines on paper, the
+   corner vignette becomes a faint aged-paper burn, and the film grain eases
+   off (noise reads louder on light ground). */
+:root[data-theme='light'] body::before {
+  background-image:
+    radial-gradient(130% 100% at 50% 0%, transparent 52%, rgba(76, 57, 26, 0.13) 100%),
+    linear-gradient(rgba(29, 27, 23, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29, 27, 23, 0.05) 1px, transparent 1px);
+}
+
+:root[data-theme='light'] body::after {
+  opacity: 0.035;
+}
+
 ::selection {
   background: rgba(217, 119, 6, 0.35);
   color: var(--ink-0);
