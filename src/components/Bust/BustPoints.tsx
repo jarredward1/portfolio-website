@@ -21,11 +21,12 @@ const L_AMBER = new THREE.Color('#b34c12')
 const L_GOLD = new THREE.Color('#dfa050')
 const HOT = new THREE.Color('#e83c0f')
 
-// How far the head turns to follow the cursor (radians). The silhouette
-// inflation gives the head real roundness, so it can turn a touch further
-// than the flat relief could before revealing itself as a sheet.
-const HEAD_YAW_MAX = 0.5
-const HEAD_PITCH_MAX = 0.17
+// How far the head turns to follow the cursor (radians). The rotation
+// axis sits at the silhouette's depth, so features sweep ~2x farther per
+// radian than they did about the old base-plane axis; these caps keep the
+// full-turn feature travel in the same tasteful range as before.
+const HEAD_YAW_MAX = 0.38
+const HEAD_PITCH_MAX = 0.15
 
 export interface BustPointer {
   /** Window-normalized cursor (-1..1), drives the head turn. */

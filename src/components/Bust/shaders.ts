@@ -23,11 +23,15 @@ export const bustVertex = /* glsl */ `
   varying float vScan;
 
   // Tuning knobs for the two interactions.
-  // Pivot measured from the matte: x = head-run center (-0.016), z = the
-  // head shell's mean inflation depth (+0.30). With real volume, yawing
-  // about the old z=0 base plane translated the whole head sideways
-  // (~sin(yaw) * 0.3) instead of spinning it in place.
-  const vec3 HEAD_PIVOT = vec3(-0.016, 0.05, 0.30);
+  // Pivot x = measured head-run center. Pivot z sits at the SILHOUETTE's
+  // depth (the inflation falls to ~-0.30 at the head's outline), not inside
+  // the volume: the bust is a front shell with no back of head, so an axis
+  // inside it swings the outline sideways and the head appears to slide off
+  // the neck. Anchoring the axis at the outline's own depth pins the
+  // silhouette (like a globe's edge staying put while it spins) and lets
+  // the interior features (nose, eyes, beard) do the sweeping, which is how
+  // a turning head actually reads.
+  const vec3 HEAD_PIVOT = vec3(-0.016, 0.05, -0.30);
   const float POINTER_RADIUS = 0.42;            // base size of the break-apart zone
   const float POINTER_STRENGTH = 0.44;          // how far particles flee
 
