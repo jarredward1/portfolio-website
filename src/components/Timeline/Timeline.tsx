@@ -212,9 +212,9 @@ export default function Timeline() {
       <div className="container">
         <SectionHeader
           kicker="The through-line"
-          title="One record, two theaters"
+          title="One standard, two environments"
           titleId="timeline-title"
-          sub="Read the risk, hold the standard, command the response under pressure. The discipline was built in a correctional facility and now runs across an enterprise attack surface."
+          sub="The discipline I developed in corrections now guides how I assess risk, strengthen controls, and support enterprise security."
         />
 
         <div className={s.body} ref={bodyRef}>
