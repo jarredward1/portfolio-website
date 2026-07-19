@@ -50,7 +50,7 @@ export default function Contact() {
         >
           <p className="mono-label">Contact</p>
           <h2 id="contact-title" className={s.headline}>
-            Open to GRC and vulnerability-management roles.
+            Open to GRC and vulnerability management roles.
           </h2>
           <p className={s.sub}>Email is the fastest way to reach me, or connect on LinkedIn.</p>
 
