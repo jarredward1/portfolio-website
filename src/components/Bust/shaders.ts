@@ -85,11 +85,13 @@ export const bustVertex = /* glsl */ `
     // instead of cutting a visible line through the neck. Costs nothing
     // visually: near-silhouette depths are motion-pinned by the axis.
     w *= smoothstep(-0.3, -0.08, formed.z);
-    // The collar TIPS ride up the neck above the flare line, so no y cutoff
-    // alone can fence them out; but they are white fabric among skin and
-    // beard. Pin bright points inside the collar zone. Bright skin
-    // highlights live higher on the face and keep their weight.
-    float fabric = smoothstep(0.7, 0.85, aShade) * (1.0 - smoothstep(0.28, 0.42, formed.y));
+    // The collar rides up the neck above the flare line, so no y cutoff
+    // alone can fence it out; but it is white fabric among skin and beard.
+    // Pin bright points inside the collar zone, INCLUDING its shadowed
+    // whites (down to ~0.5 luminance), or the collar's folds flash white
+    // in a turn. The zone ends below y=0.3 (collar tops out ~0.24) so the
+    // lip and mustache highlights just above it keep full weight.
+    float fabric = smoothstep(0.5, 0.7, aShade) * (1.0 - smoothstep(0.22, 0.3, formed.y));
     w *= 1.0 - fabric;
     // The idle sway is gated off in the light theme: with the inflated depth,
     // a constant micro-yaw slides different-depth particles across each other
