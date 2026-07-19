@@ -69,13 +69,14 @@ export const bustVertex = /* glsl */ `
     // ramps from 0 at the shoulders to 1 at the face, so the neck twists
     // instead of the head shearing off the torso. A faint time-based sway
     // keeps the head alive when the cursor is still.
-    // Measured from the silhouette: the collar flare starts ~y=+0.08 (down
-    // to ~+0.075 after the volume sampling's perspective compression). The
-    // flat bust could start its ramp at 0.02 invisibly, but with real depth
-    // even a small residual weight swings points by their z, so the band
-    // now stays zero until clear of the collar and reaches full weight by
-    // the jaw. Only the head and beard turn; the shirt stays planted.
-    float w = smoothstep(0.1, 0.26, formed.y);
+    // Measured from the silhouette: the collar flare starts ~y=+0.08. The
+    // ramp is steep: full weight just above the collar line, so the chin
+    // and beard travel WITH the head instead of lagging at partial weight
+    // (the silhouette-anchored axis doubles feature travel, which made any
+    // lag visible). Steepness is safe because the ramp no longer works
+    // alone: silhouette points are pinned by the axis depth and the collar
+    // interior is pinned by the fabric term below.
+    float w = smoothstep(0.09, 0.17, formed.y);
     // The collar TIPS ride up the neck above the flare line, so no y cutoff
     // alone can fence them out; but they are white fabric among skin and
     // beard. Pin bright points inside the collar zone. Bright skin
