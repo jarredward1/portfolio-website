@@ -69,14 +69,16 @@ export const bustVertex = /* glsl */ `
     // ramps from 0 at the shoulders to 1 at the face, so the neck twists
     // instead of the head shearing off the torso. A faint time-based sway
     // keeps the head alive when the cursor is still.
-    // Measured from the silhouette: the collar flare starts ~y=+0.08. The
-    // ramp is steep: full weight just above the collar line, so the chin
-    // and beard travel WITH the head instead of lagging at partial weight
-    // (the silhouette-anchored axis doubles feature travel, which made any
-    // lag visible). Steepness is safe because the ramp no longer works
-    // alone: silhouette points are pinned by the axis depth and the collar
-    // interior is pinned by the fabric term below.
-    float w = smoothstep(0.09, 0.17, formed.y);
+    // The head/torso boundary is not a horizontal line: the chin and beard
+    // hang at the head's center BELOW the height of the collar's sides, so
+    // a flat y cutoff either freezes the chin or frees the collar. The
+    // boundary is a U: it dips at the head's vertical axis (dx small) so
+    // the whole beard turns, and rises toward the sides where collar and
+    // shoulders must stay planted. Bright fabric that crosses into the dip
+    // (the collar V, tie knot) is pinned by the fabric term below.
+    float dxAxis = abs(formed.x + 0.016);
+    float neckY = mix(-0.04, 0.26, smoothstep(0.06, 0.5, dxAxis));
+    float w = smoothstep(neckY, neckY + 0.07, formed.y);
     // The collar TIPS ride up the neck above the flare line, so no y cutoff
     // alone can fence them out; but they are white fabric among skin and
     // beard. Pin bright points inside the collar zone. Bright skin
