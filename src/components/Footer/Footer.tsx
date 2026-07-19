@@ -1,7 +1,57 @@
+import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { site } from '../../data/site'
 import { GitHubIcon, LinkedInIcon } from '../ui/Icons'
 import s from './Footer.module.css'
+
+interface HeaderCheck {
+  label: string
+  header: string
+  test: (value: string) => boolean
+}
+
+const HEADER_CHECKS: HeaderCheck[] = [
+  { label: 'CSP: self-only', header: 'content-security-policy', test: (v) => v.includes("default-src 'self'") },
+  { label: 'X-Frame-Options: DENY', header: 'x-frame-options', test: (v) => v.toUpperCase() === 'DENY' },
+  { label: 'X-Content-Type-Options: nosniff', header: 'x-content-type-options', test: (v) => v.toLowerCase() === 'nosniff' },
+]
+
+/** Live readout of this response's own security headers via a same-origin
+    HEAD request. Only shows headers it can actually confirm; renders
+    nothing on failure rather than a broken/misleading state. */
+function SecurityHeaders() {
+  const [confirmed, setConfirmed] = useState<string[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    fetch(window.location.href, { method: 'HEAD' })
+      .then((res) => {
+        if (cancelled) return
+        const hits = HEADER_CHECKS.filter(({ header, test }) => {
+          const value = res.headers.get(header)
+          return value !== null && test(value)
+        }).map(({ label }) => label)
+        setConfirmed(hits)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  if (confirmed.length === 0) return null
+
+  return (
+    <div className={`container ${s.headers} no-print`}>
+      <span className={s.headersLabel}>Response headers verified</span>
+      {confirmed.map((label) => (
+        <span key={label} className={s.headerChip}>
+          {label}
+        </span>
+      ))}
+    </div>
+  )
+}
 
 export default function Footer() {
   const reduced = useReducedMotion() ?? false
@@ -12,7 +62,7 @@ export default function Footer() {
     <footer className={s.footer}>
       {/* End-of-file sign-off: the rule sweeps closed, the JW diamond draws
           itself, and the record ends. */}
-      <div className={`container ${s.signoff}`}>
+      <div className={`container ${s.signoff} no-print`}>
         <motion.div
           className={s.signRule}
           aria-hidden="true"
@@ -74,6 +124,8 @@ export default function Footer() {
           <span className={s.copy}>© {year}</span>
         </div>
       </div>
+
+      <SecurityHeaders />
     </footer>
   )
 }

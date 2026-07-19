@@ -39,7 +39,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className={`section ${s.section}`} aria-labelledby="contact-title">
-      <div className={s.aurora} aria-hidden="true" />
+      <div className={`${s.aurora} no-print`} aria-hidden="true" />
       <div className="container">
         <motion.div
           className={s.wrap}

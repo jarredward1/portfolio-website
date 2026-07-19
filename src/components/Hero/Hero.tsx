@@ -33,9 +33,9 @@ export default function Hero() {
 
   return (
     <section className={s.hero} aria-labelledby="hero-name">
-      <div className={s.aurora} aria-hidden="true" />
+      <div className={`${s.aurora} no-print`} aria-hidden="true" />
 
-      <div className={s.bustLayer} aria-hidden="true">
+      <div className={`${s.bustLayer} no-print`} aria-hidden="true">
         {canWebgl ? (
           <Suspense fallback={null}>
             <Bust reduced={reduced} />

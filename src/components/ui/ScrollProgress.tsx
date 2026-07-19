@@ -9,7 +9,7 @@ export default function ScrollProgress() {
 
   return (
     <motion.div
-      className={s.bar}
+      className={`${s.bar} no-print`}
       aria-hidden="true"
       style={{ scaleX: reduced ? scrollYProgress : smooth }}
     />

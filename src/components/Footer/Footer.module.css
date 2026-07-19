@@ -91,3 +91,33 @@
   font-size: var(--text-label);
   color: var(--ink-2);
 }
+
+.headers {
+  margin-top: 1.1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.04em;
+}
+
+.headersLabel {
+  color: var(--ink-2);
+}
+
+.headerChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--ink-1);
+}
+
+.headerChip::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  rotate: 45deg;
+  background: var(--grad);
+}

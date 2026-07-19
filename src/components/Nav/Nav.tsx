@@ -47,7 +47,7 @@ export default function Nav() {
   }, [])
 
   return (
-    <header className={`${s.nav} ${scrolled ? s.scrolled : ''}`}>
+    <header className={`${s.nav} ${scrolled ? s.scrolled : ''} no-print`}>
       <div className={`container ${s.inner}`}>
         <a className={s.brand} href="#main" aria-label="Jarred Ward, back to top">
           <span className={s.tick} aria-hidden="true" />

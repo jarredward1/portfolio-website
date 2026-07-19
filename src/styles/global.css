@@ -21,7 +21,14 @@ html {
 
 body {
   position: relative;
-  background: transparent;
+  background: linear-gradient(
+    180deg,
+    var(--bg-0) 0%,
+    rgba(205, 74, 22, 0.05) 22%,
+    rgba(185, 28, 44, 0.045) 45%,
+    rgba(217, 119, 6, 0.05) 70%,
+    var(--bg-0) 100%
+  );
   color: var(--ink-0);
   font-family: var(--font-body);
   font-size: var(--text-body);
@@ -212,4 +219,44 @@ h3 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--line-2);
+}
+
+/* ---------- print ---------- */
+
+@media print {
+  :root {
+    --bg-0: #f4f1ea !important;
+    --bg-1: #ebe7dd !important;
+    --bg-2: #e2ddcf !important;
+    --line-1: #dcd6c8 !important;
+    --line-2: #c6bfad !important;
+    --ink-0: #1d1b17 !important;
+    --ink-1: #514c44 !important;
+    --ink-2: #6b665a !important;
+    --amber: #b45309 !important;
+    --amber-hi: #96430a !important;
+  }
+
+  body::before,
+  body::after {
+    display: none !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  * {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    color: var(--ink-2);
+    word-break: break-all;
+  }
 }

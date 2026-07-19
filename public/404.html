@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0D0D0F" />
+    <meta name="robots" content="noindex" />
+    <title>404 · Page Not Found · Jarred Ward</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      /*
+        Standalone: Cloudflare serves this verbatim for any unmatched route;
+        Vite copies public/ as-is, unprocessed. Can't import tokens.css,
+        can't use hashed webfont files (filenames change every deploy).
+        Every value below is hand-copied from tokens.css (dark only). Font
+        stacks keep only the system fallback tail of the real site stacks.
+        If tokens.css's dark values change, update these by hand.
+      */
+      :root {
+        --bg-0: #0d0d0f;
+        --ink-0: #f4f1ea;
+        --ink-1: #a9a49b;
+        --ink-2: #858076;
+        --crimson: #b91c2c;
+        --ember: #cd4a16;
+        --amber: #d97706;
+        --amber-hi: #f0a035;
+        --grad: linear-gradient(120deg, var(--crimson) 0%, var(--ember) 55%, var(--amber) 100%);
+        --grad-cta: linear-gradient(120deg, #b91c2c 0%, #cd4a16 100%);
+        --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+        --font-display: 'Arial Black', sans-serif;
+        --font-body: system-ui, sans-serif;
+        --text-label: 0.8125rem;
+        --text-small: 0.9375rem;
+        --text-body: 1.0625rem;
+        --text-hero: clamp(3.25rem, 9.5vw, 7.25rem);
+        --gutter: clamp(1.25rem, 4vw, 2.5rem);
+        --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; }
+      html { background: var(--bg-0); }
+      body {
+        position: relative; display: flex; flex-direction: column; min-height: 100svh;
+        color: var(--ink-0); font-family: var(--font-body); font-size: var(--text-body);
+        line-height: 1.7; -webkit-font-smoothing: antialiased;
+      }
+      body::before {
+        content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+        background-image:
+          radial-gradient(130% 100% at 50% 0%, transparent 52%, rgba(0, 0, 0, 0.42) 100%),
+          linear-gradient(rgba(244, 241, 234, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(244, 241, 234, 0.03) 1px, transparent 1px);
+        background-size: 100% 100%, 64px 64px, 64px 64px;
+      }
+      body::after {
+        content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 160px 160px;
+      }
+      a { color: inherit; text-decoration: none; }
+      a:focus-visible { outline: 2px solid var(--amber-hi); outline-offset: 3px; border-radius: 2px; }
+      .bar { padding: 1.5rem var(--gutter); }
+      .brand { display: inline-flex; align-items: center; gap: 0.55rem; font-family: var(--font-mono); font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink-0); }
+      .tick { width: 10px; height: 10px; background: var(--grad); rotate: 45deg; }
+      main { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem var(--gutter) 4rem; overflow: clip; }
+      .glow {
+        position: absolute; top: 6%; left: 50%; width: min(58vw, 760px); aspect-ratio: 1;
+        margin-left: min(-29vw, -380px); border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(185, 28, 44, 0.16), rgba(217, 119, 6, 0.07) 52%, transparent 74%);
+        filter: blur(52px); animation: aurora 26s ease-in-out infinite alternate; pointer-events: none; z-index: 0;
+      }
+      @keyframes aurora {
+        from { transform: translate3d(-4%, -2%, 0) rotate(-5deg) scale(1); }
+        to { transform: translate3d(5%, 4%, 0) rotate(6deg) scale(1.08); }
+      }
+      @media (prefers-reduced-motion: reduce) { .glow { animation: none; } }
+      .content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+      .kicker { display: inline-flex; align-items: center; gap: 0.7rem; font-family: var(--font-mono); font-size: var(--text-label); font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--amber-hi); }
+      .kickTick { width: 8px; height: 8px; rotate: 45deg; background: var(--grad); }
+      .numeral { font-family: var(--font-display); font-weight: 900; font-size: var(--text-hero); line-height: 0.9; letter-spacing: -0.01em; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; margin-block: 1.1rem 1.3rem; }
+      .signoff { font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: 0.1em; color: var(--ink-2); margin-bottom: 0.9rem; }
+      .lead { font-size: var(--text-body); color: var(--ink-1); max-width: 30rem; margin-bottom: 2.2rem; text-wrap: balance; }
+      .primary { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-mono); font-size: var(--text-small); font-weight: 500; letter-spacing: 0.04em; color: #fff; background: var(--grad-cta); padding: 0.85rem 1.5rem; border-radius: 5px; transition: transform 0.18s var(--ease-out), box-shadow 0.18s; }
+      .primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -12px rgba(185, 28, 44, 0.7); }
+      .primary svg { transition: transform 0.18s var(--ease-out); }
+      .primary:hover svg { transform: translateX(3px); }
+      @media (prefers-reduced-motion: reduce) { .primary, .primary svg { transition: none; } }
+    </style>
+  </head>
+  <body>
+    <header class="bar">
+      <a class="brand" href="/" aria-label="Jarred Ward, back to home">
+        <span class="tick" aria-hidden="true"></span>
+        JW
+      </a>
+    </header>
+    <main>
+      <div class="glow" aria-hidden="true"></div>
+      <div class="content">
+        <p class="kicker"><span class="kickTick" aria-hidden="true"></span>Error · 404</p>
+        <h1 class="numeral">404</h1>
+        <p class="signoff">// no route found at this path</p>
+        <p class="lead">The page you're looking for doesn't exist, or the link is out of date.</p>
+        <a class="primary" href="/">
+          Back to the site
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 12h16m0 0-6-6m6 6-6 6" />
+          </svg>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

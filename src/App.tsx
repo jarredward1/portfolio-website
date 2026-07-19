@@ -11,7 +11,7 @@ import Footer from './components/Footer/Footer'
 export default function App() {
   return (
     <>
-      <a className="skip-link" href="#main">
+      <a className="skip-link no-print" href="#main">
         Skip to content
       </a>
       <ScrollProgress />
