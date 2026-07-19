@@ -31,6 +31,6 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     label: 'Platforms & Tools',
-    skills: ['Microsoft Azure', 'Microsoft Sentinel', 'Microsoft Defender', 'PowerShell', 'KQL', 'Python'],
+    skills: ['Microsoft Azure', 'Microsoft Sentinel', 'Microsoft Defender', 'PowerShell', 'Bash', 'KQL', 'Python'],
   },
 ]
