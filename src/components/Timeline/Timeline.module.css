@@ -274,13 +274,13 @@
   display: none;
   position: absolute;
   z-index: 0;
-  right: -19rem;
+  left: calc(100% - 3rem);
   top: 50%;
   translate: 0 -50%;
   font-family: var(--font-display);
   font-stretch: 125%;
   font-weight: 900;
-  font-size: clamp(4.5rem, 8.5vw, 8rem);
+  font-size: clamp(4.5rem, 7vw, 6rem);
   line-height: 1;
   text-transform: uppercase;
   color: transparent;
