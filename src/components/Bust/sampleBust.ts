@@ -9,7 +9,6 @@ export interface BustSamples {
   scatter: Float32Array // xyz, per-point assembly origin offset
   random: Float32Array // 1 per point, 0..1 (stagger + drift seed)
   shade: Float32Array // 1 per point, 0..1 luminance from the photo
-  sizeFix: Float32Array // 1 per point, cancels resting perspective size gain
 }
 
 interface SampleOptions {
@@ -26,9 +25,6 @@ interface SampleOptions {
   /** Assembly scatter radius in world units. */
   scatterRadius: number
 }
-
-/** Camera distance in Bust.tsx's <Canvas camera={{ position: [0, 0, 5] }}>. */
-const CAMERA_Z = 5
 
 export async function sampleBust(src: string, opts: SampleOptions): Promise<BustSamples> {
   const img = new Image()
@@ -101,7 +97,6 @@ export async function sampleBust(src: string, opts: SampleOptions): Promise<Bust
   const scatter: number[] = []
   const random: number[] = []
   const shade: number[] = []
-  const sizeFix: number[] = []
 
   for (let y = 0; y < h; y += opts.stride) {
     for (let x = 0; x < w; x += opts.stride) {
@@ -115,20 +110,15 @@ export async function sampleBust(src: string, opts: SampleOptions): Promise<Bust
       // Depth = rounded silhouette volume + luminance surface detail riding
       // on it, plus a little jitter for organic thickness. Both terms are
       // centered so the bust's average plane (and the head pivot) stay put.
+      // The geometry is TRUE (no projection pre-warp): the vertex shader
+      // flattens perspective after rotation, so the resting portrait sits on
+      // the flat matte's exact raster and a turning head stays rigid.
       const pzVol = inflate[y * w + x] - cap * 0.45
       const pz = pzVol + (lum - 0.45) * worldH * opts.depth + (Math.random() - 0.5) * 0.02
-      // Perspective-preserving inflation: scale xy and dot size by the SMOOTH
-      // volume depth only, so the frontal view projects onto the same screen
-      // raster as the flat matte (crisp portrait), while the head turn still
-      // reveals the rounded form. Compensating with the full pz would smear
-      // tonal edges: neighboring light/dark dots would get different scales.
-      // CAMERA_Z must match Bust.tsx.
-      const persp = (CAMERA_Z - pzVol) / CAMERA_Z
-      const px = (x / w - 0.5) * worldW * persp
-      const py = (0.5 - y / h) * worldH * persp
+      const px = (x / w - 0.5) * worldW
+      const py = (0.5 - y / h) * worldH
 
       positions.push(px, py, pz)
-      sizeFix.push(persp)
 
       // Assembly origin: a random point on a sphere around the formed position.
       const theta = Math.random() * Math.PI * 2
@@ -151,6 +141,5 @@ export async function sampleBust(src: string, opts: SampleOptions): Promise<Bust
     scatter: new Float32Array(scatter),
     random: new Float32Array(random),
     shade: new Float32Array(shade),
-    sizeFix: new Float32Array(sizeFix),
   }
 }

@@ -2,7 +2,6 @@ export const bustVertex = /* glsl */ `
   attribute vec3 aScatter;
   attribute float aRandom;
   attribute float aShade;
-  attribute float aSizeFix;
 
   uniform float uProgress;
   uniform float uTime;
@@ -150,13 +149,19 @@ export const bustVertex = /* glsl */ `
     pos.z += ring * 0.4 * (aRandom - 0.3);
     vDisturb = max(vDisturb, ring * 1.2);
 
+    // Flatten perspective for xy AFTER all rotation and displacement: scale
+    // by this point's own depth factor so screen position is independent of
+    // z (an orthographic view through the perspective camera). At rest the
+    // portrait lands on the flat matte's exact raster, staying crisp, and a
+    // turning head stays rigid; volume shows through the lateral sweep of
+    // deep points, not through magnification. 5.0 = camera z in Bust.tsx.
+    pos.xy *= (5.0 - pos.z) / 5.0;
+
     vec4 mv = modelViewMatrix * vec4(pos, 1.0);
     gl_Position = projectionMatrix * mv;
 
     float sizeFade = mix(0.35, 1.0, lp);
-    // aSizeFix cancels the formed portrait's perspective size gain (bulged
-    // points sit nearer the camera); motion still gets true perspective.
-    gl_PointSize = uSize * sizeFade * aSizeFix * (1.0 / -mv.z);
+    gl_PointSize = uSize * sizeFade * (1.0 / -mv.z);
 
     // Tonal parameter: the photo's luminance drives everything. A tiny
     // per-point nudge breaks up flat regions so they shimmer like embers.

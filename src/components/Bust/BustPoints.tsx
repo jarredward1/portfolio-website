@@ -91,7 +91,6 @@ export default function BustPoints({ reduced, pointer, exit, pulse }: BustPoints
     g.setAttribute('aScatter', new THREE.BufferAttribute(samples.scatter, 3))
     g.setAttribute('aRandom', new THREE.BufferAttribute(samples.random, 1))
     g.setAttribute('aShade', new THREE.BufferAttribute(samples.shade, 1))
-    g.setAttribute('aSizeFix', new THREE.BufferAttribute(samples.sizeFix, 1))
     return g
   }, [samples])
 
