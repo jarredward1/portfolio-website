@@ -72,13 +72,19 @@ export const bustVertex = /* glsl */ `
     // The head/torso boundary is not a horizontal line: the chin and beard
     // hang at the head's center BELOW the height of the collar's sides, so
     // a flat y cutoff either freezes the chin or frees the collar. The
-    // boundary is a U: it dips at the head's vertical axis (dx small) so
-    // the whole beard turns, and rises toward the sides where collar and
-    // shoulders must stay planted. Bright fabric that crosses into the dip
-    // (the collar V, tie knot) is pinned by the fabric term below.
+    // boundary is a U: measured from the matte, the neck/jaw silhouette
+    // extends to |dx| ~0.5, so the dip stays low across that full width
+    // (the whole neck column turns) and rises only past it, where the
+    // shoulders live. Bright fabric inside the dip (collar V, tie knot,
+    // collar tips) is pinned by the fabric term below.
     float dxAxis = abs(formed.x + 0.016);
-    float neckY = mix(-0.04, 0.26, smoothstep(0.06, 0.5, dxAxis));
+    float neckY = mix(-0.04, 0.26, smoothstep(0.42, 0.6, dxAxis));
     float w = smoothstep(neckY, neckY + 0.07, formed.y);
+    // And the seam itself is depth-faded: weight eases out as points near
+    // the silhouette's depth, so the turn dies off along the real 3D form
+    // instead of cutting a visible line through the neck. Costs nothing
+    // visually: near-silhouette depths are motion-pinned by the axis.
+    w *= smoothstep(-0.3, -0.08, formed.z);
     // The collar TIPS ride up the neck above the flare line, so no y cutoff
     // alone can fence them out; but they are white fabric among skin and
     // beard. Pin bright points inside the collar zone. Bright skin
