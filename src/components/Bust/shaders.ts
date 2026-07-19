@@ -88,10 +88,14 @@ export const bustVertex = /* glsl */ `
     // The collar rides up the neck above the flare line, so no y cutoff
     // alone can fence it out; but it is white fabric among skin and beard.
     // Pin bright points inside the collar zone, INCLUDING its shadowed
-    // whites (down to ~0.5 luminance), or the collar's folds flash white
-    // in a turn. The zone ends below y=0.3 (collar tops out ~0.24) so the
-    // lip and mustache highlights just above it keep full weight.
-    float fabric = smoothstep(0.5, 0.7, aShade) * (1.0 - smoothstep(0.22, 0.3, formed.y));
+    // whites, or the collar's folds flash white in a turn. The zone ends
+    // below y=0.3 (collar tops out ~0.24) so the lip and mustache
+    // highlights just above it keep full weight. The photo is lit from the
+    // right, so the LEFT collar sits in shadow below the normal luminance
+    // floor: the floor digs deeper on that side only.
+    float leftBias = 1.0 - smoothstep(-0.38, -0.22, formed.x);
+    float fabric = smoothstep(mix(0.5, 0.3, leftBias), mix(0.7, 0.5, leftBias), aShade)
+      * (1.0 - smoothstep(0.22, 0.3, formed.y));
     w *= 1.0 - fabric;
     // The idle sway is gated off in the light theme: with the inflated depth,
     // a constant micro-yaw slides different-depth particles across each other
