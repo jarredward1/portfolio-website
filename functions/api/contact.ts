@@ -93,13 +93,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         Authorization: `Bearer ${env.RESEND_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      // TODO: switch `from` to contact@jarredward.tech once that domain is
-      // purchased and verified with Resend (DNS TXT/DKIM records). Until
-      // then Resend can only send from its shared onboarding@resend.dev
-      // address — `reply_to` below still routes replies straight to the
-      // visitor regardless of which `from` address is used.
       body: JSON.stringify({
-        from: 'Portfolio Contact <onboarding@resend.dev>',
+        from: 'Portfolio Contact <contact@jarredward.tech>',
         to: [site.email],
         reply_to: email,
         subject: `New portfolio message from ${name}`,
