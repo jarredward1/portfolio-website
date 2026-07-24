@@ -157,6 +157,200 @@
   .aurora {
     animation: none;
   }
+
+  .spinnerIcon {
+    animation: none;
+  }
+}
+
+/* ---------- contact form ---------- */
+
+.form {
+  margin-top: 2.5rem;
+  max-width: 34rem;
+}
+
+.formError {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+  font-size: var(--text-small);
+  color: var(--ink-0);
+}
+
+.formError svg {
+  flex-shrink: 0;
+  color: var(--ember);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldMessage {
+  grid-column: 1 / -1;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--ink-0);
+  background: var(--bg-1);
+  border: 1px solid var(--line-2);
+  border-radius: 5px;
+  padding: 0.75rem 0.9rem;
+  transition: border-color 0.18s;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 8.5rem;
+  line-height: 1.6;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--ink-2);
+}
+
+.input:hover,
+.input:focus,
+.textarea:hover,
+.textarea:focus {
+  border-color: var(--amber-hi);
+}
+
+/* :user-invalid (not :invalid) so an empty required field doesn't turn red
+   before the visitor has touched it — only after a failed submit or blur.
+   Progressive enhancement: unsupported browsers just show no error border;
+   the native validation bubble and server-side check still hold either way. */
+.input:user-invalid,
+.textarea:user-invalid {
+  border-color: var(--ember);
+}
+
+/* Honeypot: off-screen, not display:none/visibility:hidden/opacity:0/
+   type="hidden" — see the JSX comment in Contact.tsx for why. */
+.hp {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: var(--grad-cta);
+  padding: 0.85rem 1.5rem;
+  border-radius: 5px;
+  transition:
+    transform 0.18s var(--ease-out),
+    box-shadow 0.18s,
+    opacity 0.18s;
+}
+
+.submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -12px rgba(185, 28, 44, 0.7);
+}
+
+.submit svg {
+  transition: transform 0.18s var(--ease-out);
+}
+
+.submit:hover svg {
+  transform: translateX(3px);
+}
+
+.submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.submit:disabled svg {
+  transform: none;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinnerIcon {
+  animation: spin 0.8s linear infinite;
+}
+
+.success {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-top: 2.5rem;
+  max-width: 34rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--bg-1);
+}
+
+.successIcon {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: var(--amber-hi);
+}
+
+.successText {
+  font-size: var(--text-body);
+  color: var(--ink-0);
+}
+
+.resetLink {
+  display: block;
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-1);
+  transition: color 0.18s;
+}
+
+.resetLink:hover {
+  color: var(--amber-hi);
+}
+
+@media (max-width: 560px) {
+  .fields {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- light theme ---------- */

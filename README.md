@@ -1,6 +1,6 @@
 # Jarred Ward · Portfolio
 
-<!-- After the first deploy, add: **Live:** https://<project>.pages.dev -->
+<!-- After the first deploy, add: **Live:** https://jarredward.tech -->
 
 Personal site for a vulnerability-management and GRC analyst. Single page, statically built, deployed on Cloudflare Pages. No template, no component library, no CSS framework: hand-written design tokens, CSS Modules, and one deliberate WebGL set piece.
 
@@ -14,6 +14,7 @@ Personal site for a vulnerability-management and GRC analyst. Single page, stati
 | Motion | Framer Motion for reveals; custom GLSL for the hero |
 | 3D | three.js via react-three-fiber, no drei, no postprocessing |
 | Hosting | Cloudflare Pages, static output only |
+| Contact form | Cloudflare Pages Function (`functions/api/contact.ts`) → Resend |
 
 ## The particle bust
 
@@ -59,6 +60,8 @@ The site makes zero external requests at runtime (fonts, styles, and scripts are
 - `Content-Security-Policy: default-src 'self'` with `object-src 'none'`, `frame-ancestors 'none'`, `base-uri 'self'`, `form-action 'self'`
 - `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, locked-down `Permissions-Policy`
 - The résumé path is excluded from indexing via `X-Robots-Tag` and `robots.txt`
+
+The one runtime request the site does make is the contact form's same-origin `POST /api/contact`, handled entirely by a Cloudflare Pages Function — no CSP change needed since `connect-src 'self'` already permits it. The form carries a honeypot field as its spam defense (off-screen, not `display:none`, so scrapers that check computed visibility still fall for it); every field is re-validated server-side regardless of what the browser already checked.
 
 ## Performance and accessibility
 
@@ -113,6 +116,24 @@ indexed by search engines.
 Every push triggers a rebuild, which re-fetches the pinned repos with fresh data.
 To refresh the Projects section, just re-pin repos on GitHub and redeploy. No
 code changes required.
+
+### 4. Resend (email delivery for the contact form)
+
+1. Sign up at [resend.com](https://resend.com) and generate an API key.
+2. Cloudflare Pages → Settings → Environment variables → add `RESEND_API_KEY`,
+   paste the key, mark it **Encrypt**. Add it for both **Production** and
+   **Preview** — same mechanics as `GITHUB_TOKEN` above.
+3. For local testing, create a `.dev.vars` file at the repo root (gitignored):
+   ```
+   RESEND_API_KEY=re_xxxxxxxxx
+   ```
+   then run `npm run pages:dev` instead of `npm run dev` to exercise
+   `functions/api/contact.ts` locally via `wrangler`.
+
+No sending domain is verified yet, so outgoing mail uses Resend's shared
+`onboarding@resend.dev` address (see the `TODO` in `contact.ts`). Once
+`jarredward.tech` is purchased and its DNS records are verified with Resend,
+switch the function's `from` address to `contact@jarredward.tech`.
 
 ### Local build test with the token
 

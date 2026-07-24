@@ -8,6 +8,11 @@ dist/
 .env
 .env.*
 
+# Cloudflare Pages Functions local secrets (wrangler pages dev reads this for
+# RESEND_API_KEY; never committed, same policy as .env above)
+.dev.vars
+.dev.vars.*
+
 # OS noise
 .DS_Store
 

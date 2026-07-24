@@ -108,3 +108,83 @@ export function DownloadIcon({ size = 16 }: IconProps) {
     </svg>
   )
 }
+
+export function SendIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M3 11 21 3 14 21 11 13Z" />
+    </svg>
+  )
+}
+
+export function CheckIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M4 12.5 9.5 18 20 6" />
+    </svg>
+  )
+}
+
+export function AlertIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M12 3 22 20H2Z" />
+      <path d="M12 9.5v4.25M12 17v.01" />
+    </svg>
+  )
+}
+
+// Dim full ring + bright quarter-arc; Contact.module.css rotates it via
+// @keyframes spin. Animation lives in the consuming component's CSS module
+// (matches .cueFill's split in Hero.module.css), not baked into the icon.
+export function SpinnerIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <circle cx="12" cy="12" r="9" strokeOpacity="0.25" />
+      <path d="M21 12a9 9 0 0 0-9-9" />
+    </svg>
+  )
+}
