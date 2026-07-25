@@ -70,7 +70,7 @@
   font-size: 1.5rem;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(244, 241, 234, 0.16);
+  -webkit-text-stroke: 1px rgba(240, 160, 53, 0.35);
   user-select: none;
 }
 
@@ -180,7 +180,7 @@
 }
 
 :global([data-theme='light']) .rowIndex {
-  -webkit-text-stroke: 1px rgba(29, 27, 23, 0.18);
+  -webkit-text-stroke: 1px rgba(150, 67, 10, 0.4);
 }
 
 /* The CISSP pulse ripples rust instead of amber on paper. */
