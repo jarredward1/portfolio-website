@@ -1,4 +1,4 @@
-# Jarred Ward · Portfolio
+# Jarred Ward's Portfolio
 
 **Live site:** www.jarredward.tech
 
@@ -14,7 +14,7 @@ My personal portfolio site, built to showcase my background and current work in 
 
 ## 🛠️ How it's built
 
-A custom site, not a template: React and TypeScript on the front end, hosted on Cloudflare. Built with the same security mindset I bring to my GRC work: strict security headers, no unnecessary third-party scripts, and everything on the contact form re-checked server-side.
+A custom site, not a template: React and TypeScript on the front end, hosted on Cloudflare.
 
 Want the technical breakdown, covering architecture, build pipeline, and setup instructions? See [DEVELOPMENT.md](DEVELOPMENT.md).
 
