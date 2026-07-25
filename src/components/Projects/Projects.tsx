@@ -14,7 +14,7 @@ interface Repo {
   language: string | null
 }
 
-const ACRONYMS = new Set(['pci', 'dss', 'grc', 'nist', 'csf', 'iso', 'edr', 'vm', 'it'])
+const ACRONYMS = new Set(['pci', 'dss', 'grc', 'nist', 'csf', 'iso', 'edr', 'vm', 'it', 'cmmc'])
 
 function titleize(name: string): string {
   return name
