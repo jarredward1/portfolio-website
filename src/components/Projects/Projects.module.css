@@ -184,7 +184,7 @@
   font-size: 3.6rem;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 0.25px var(--amber-hi);
+  -webkit-text-stroke: 0.5px var(--amber-hi);
   pointer-events: none;
   user-select: none;
 }
