@@ -284,13 +284,9 @@
   line-height: 1;
   text-transform: uppercase;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(244, 241, 234, 0.09);
+  -webkit-text-stroke: 1.5px var(--amber-hi);
   pointer-events: none;
   user-select: none;
-}
-
-.pivot .ghost {
-  -webkit-text-stroke-color: rgba(240, 160, 53, 0.16);
 }
 
 /* ---------- cards ---------- */
@@ -487,14 +483,6 @@
 
 :global([data-theme='light']) .orbits span {
   box-shadow: 0 0 6px 1px rgba(150, 67, 10, 0.35);
-}
-
-:global([data-theme='light']) .ghost {
-  -webkit-text-stroke-color: rgba(29, 27, 23, 0.11);
-}
-
-:global([data-theme='light']) .pivot .ghost {
-  -webkit-text-stroke-color: rgba(150, 67, 10, 0.3);
 }
 
 :global([data-theme='light']) .card::before {
