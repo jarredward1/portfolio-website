@@ -1,4 +1,4 @@
-# Jarred Ward · Portfolio
+# Jarred Ward's Portfolio
 
 **Live site:** www.jarredward.tech
 
