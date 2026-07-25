@@ -142,11 +142,7 @@ function TimelineNode({
             <span className={s.meta}>{m.meta}</span>
           </p>
         ) : null}
-        <ul className={s.points}>
-          {m.points.map((p) => (
-            <li key={p}>{p}</li>
-          ))}
-        </ul>
+        <p className={s.story}>{m.story}</p>
       </motion.div>
     </li>
   )
