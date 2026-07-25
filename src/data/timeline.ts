@@ -23,7 +23,7 @@ export const milestones: Milestone[] = [
     meta: 'Baltimore, MD',
     ghost: '2013',
     story:
-      'I started at the Maryland Department of Public Safety and Correctional Services in February 2013, working the floor in Baltimore. The job came down to reading a room before it became a problem: spotting the small signs of risk before they turned into something worse, and responding in real time when they did. I learned early to enforce access control without exception and to document every incident cleanly enough to survive an audit. That habit of noticing risk first and writing it down second never left me.',
+      "I started at the Maryland Department of Public Safety and Correctional Services (DPSCS) in February 2013, working in the section of the prison that housed 120 of Baltimore's most hardened criminals. The job came down to reading a room before it became a problem: spotting the small signs of risk before they turned into something worse, and responding in real time when they did. I learned early to enforce access control without exception and to document every incident cleanly enough to survive an audit or a court case. That habit of noticing risk and maintaining thorough documentation never left me.",
   },
   {
     id: 'tac-team-2015',
@@ -34,7 +34,7 @@ export const milestones: Milestone[] = [
     meta: 'Baltimore, MD',
     ghost: '2015',
     story:
-      "By November 2015 I'd been selected for the tactical response team, chosen for how I held up under pressure rather than for time served. The role meant walking into the facility's highest-risk incidents and making fast, controlled decisions when there was no time to second-guess them. It sharpened something I'd keep relying on for the rest of my career: staying calm enough, in the worst moment, to make the right call instead of just a fast one.",
+      "By November 2015 I'd been selected for the tactical response team, chosen for my professionalism and how I held up under pressure. The role meant instead of just handling my section, I was responsible for running into the highest-risk incidents everywhere in the entire facility that housed over 1,200 inmates, and making fast, controlled decisions when there was no time to second-guess them. Following policies, standards, and procedures was a requirement that often saved my job, or even my life, and keeping excellent documentation was a must. It sharpened something I'd keep relying on for the rest of my career: staying calm enough in the worst moments to make the right call instead of just a fast one.",
   },
   {
     id: 'tac-cmd-2017',
@@ -45,7 +45,7 @@ export const milestones: Milestone[] = [
     meta: 'Baltimore, MD',
     ghost: '2017',
     story:
-      "I moved into command in May 2017 and stayed there for eight years, directing escalation and resource decisions in real time during the facility's most volatile incidents. The work that meant the most to me wasn't the emergencies themselves, it was the program I built to prevent them: a violence-reduction effort that cut physical assaults 35% year over year. I wrote the emergency response plans and trained the officers who'd carry them out, because I'd rather build a system that stops the crisis than just be good at reacting to one.",
+      "Over the years, I was trusted by my peers and stakeholders to be a reliable and professional leader. I was promoted to a leadership role as the commander of the tactical team in May 2017, and I stayed there for eight years, directing escalation and resource decisions in real time during the facility's most volatile incidents. The work that meant the most to me wasn't the emergencies themselves, it was the program I built to prevent them and keep people safe: a violence-reduction effort that cut physical assaults 35% year over year. I wrote the emergency response plans and trained the officers who'd carry them out, because I'd rather build a system that stops or even prevents the crisis than just be good at reacting to one.",
   },
   {
     id: 'pivot',
@@ -56,7 +56,7 @@ export const milestones: Milestone[] = [
     meta: 'Preceded by an A.S. in Information Technology',
     ghost: '4.0',
     story:
-      "Somewhere in those eight years of commanding a tactical team, I realized the work I actually cared about was prevention, not response, and that the field built entirely around that idea was cybersecurity. I went back to school, earned an A.S. in Information Technology and then a B.S. in Cybersecurity with a 4.0 GPA, and stacked certifications alongside it: Security+, Google Cybersecurity, SC-900, ISO 27001 Lead Auditor. None of it felt like starting over. It was the same discipline of risk, controls, and incident response I'd spent over a decade practicing, just on a different terrain.",
+      "During my tenure at DPSCSC, I was always the person that coworkers and stakeholders came to when they needed IT help, whether it was computer troubleshooting, configuring CCTV workstations, or reviewing security camera footage. I decided to follow my passions and go back to school, earning an A.S. in Information Technology and then a B.S. in Cybersecurity with a 4.0 GPA. I also obtained certifications alongside it: Security+, SC-900, and ISO 27001 Lead Auditor. None of it felt like starting over, instead, it just felt like a natural transition. It was the same discipline of risk, controls, and incident response I'd spent over a decade practicing, just on a different terrain.",
   },
   {
     id: 'logn-sa-2025',
@@ -67,7 +67,7 @@ export const milestones: Milestone[] = [
     meta: 'Microsoft Defender · Sentinel · KQL',
     ghost: '2025',
     story:
-      "I landed my first cybersecurity role at LOG(N) Pacific in May 2025 as a Security Analyst, hunting threats through EDR and learning to recognize indicators of compromise, brute-force attempts, data exfiltration, ransomware: the digital version of the risk signs I'd spent years reading in person. I built custom detection rules in Microsoft Defender for Endpoint to automate isolation and investigation, went after the brute-force problem directly with inbound NSG and firewall rules until those incidents dropped to zero, and built out Microsoft Sentinel dashboards fed by threat intelligence so the next analyst wouldn't have to hunt blind.",
+      "I landed my first cybersecurity role at LOG(N) Pacific in May 2025 as a Security Analyst, hunting threats through EDR and learning to recognize indicators of compromise, brute-force attempts, data exfiltration, and ransomware: the digital version of the risk signs I'd spent years reading in person. I built custom detection rules in Microsoft Defender for Endpoint to automate isolation and investigation, went after the brute-force problem directly with inbound NSG and firewall rules until those incidents dropped to zero, and built out Microsoft Sentinel dashboards fed by threat intelligence.",
   },
   {
     id: 'logn-vma-2026',
@@ -78,7 +78,7 @@ export const milestones: Milestone[] = [
     meta: 'Tenable · Azure environment',
     ghost: '2026',
     story:
-      "In January 2026 I moved into vulnerability management, which is where the prevention instinct from my corrections career finally has a direct outlet. I run authenticated Tenable scans across Windows and Linux, prioritize what I find by CVSS severity and actual business impact rather than just the number, and automate remediation and DISA STIG hardening with PowerShell to close configuration gaps before they get exploited. Running that scan, remediate, and verify cycle against the server team's environment cut vulnerabilities 100% at critical, 89% at high, and 83% at medium. It's the same job I've always done: find the gap before it becomes an incident.",
+      "In January 2026 I transitioned into vulnerability management, which is where the prevention instinct from my corrections career finally had a direct outlet. I run authenticated Tenable scans across Windows and Linux environments, prioritize what I find by CVSS severity and actual business impact rather than just the number, and automate remediation and DISA STIG hardening with PowerShell to close configuration gaps before they get exploited. Running that scan, remediate, and verify cycle against those environments cut vulnerabilities 100% at critical, 89% at high, and 83% at medium. It's the same job I've always done: find the gap before it becomes an incident.",
   },
   {
     id: 'next',
