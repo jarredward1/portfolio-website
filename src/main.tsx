@@ -8,6 +8,17 @@ import './styles/tokens.css'
 import './styles/global.css'
 import App from './App'
 import { site } from './data/site'
+import archivoLatinWoff2 from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url'
+
+// Preload the Hero heading's variable font so the browser fetches it right
+// away instead of waiting on lazy @font-face discovery during layout.
+const fontPreload = document.createElement('link')
+fontPreload.rel = 'preload'
+fontPreload.as = 'font'
+fontPreload.type = 'font/woff2'
+fontPreload.href = archivoLatinWoff2
+fontPreload.crossOrigin = 'anonymous'
+document.head.appendChild(fontPreload)
 
 // Devtools console banner. Module-scope (not a component/useEffect) so it
 // runs exactly once per real load regardless of StrictMode's dev-time
