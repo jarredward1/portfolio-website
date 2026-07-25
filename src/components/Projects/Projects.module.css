@@ -307,6 +307,11 @@
 
 /* ---------- light theme ---------- */
 
+/* Thin outline strokes wash out against a light background; thicken to stay legible. */
+:global([data-theme='light']) .index {
+  -webkit-text-stroke-width: 1px;
+}
+
 /* The acquisition scan is a band of light on dark cards; on paper it sweeps
    as a band of rust shadow instead. */
 :global([data-theme='light']) .card::before {

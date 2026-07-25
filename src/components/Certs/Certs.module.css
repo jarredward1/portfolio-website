@@ -175,6 +175,11 @@
 
 /* ---------- light theme ---------- */
 
+/* Thin outline strokes wash out against a light background; thicken to stay legible. */
+:global([data-theme='light']) .rowIndex {
+  -webkit-text-stroke-width: 1px;
+}
+
 :global([data-theme='light']) .row:hover {
   background: rgba(235, 231, 221, 0.7);
 }
