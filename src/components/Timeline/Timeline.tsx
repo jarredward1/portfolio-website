@@ -211,7 +211,7 @@ export default function Timeline() {
     <section id="timeline" className={`section ${s.section}`} aria-labelledby="timeline-title">
       <div className="container">
         <SectionHeader
-          kicker="The through-line"
+          kicker="About Me"
           title="One standard, two environments"
           titleId="timeline-title"
           sub="The discipline I developed in corrections now guides how I assess risk, strengthen controls, and support enterprise security."
