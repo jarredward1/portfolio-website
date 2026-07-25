@@ -183,15 +183,9 @@
   font-weight: 900;
   font-size: 3.6rem;
   line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(244, 241, 234, 0.09);
+  color: var(--amber-hi);
   pointer-events: none;
   user-select: none;
-  transition: -webkit-text-stroke-color 0.25s;
-}
-
-.card:hover .index {
-  -webkit-text-stroke-color: rgba(240, 160, 53, 0.22);
 }
 
 .cardTop {
@@ -325,10 +319,3 @@
   );
 }
 
-:global([data-theme='light']) .index {
-  -webkit-text-stroke: 1px rgba(29, 27, 23, 0.13);
-}
-
-:global([data-theme='light']) .card:hover .index {
-  -webkit-text-stroke-color: rgba(150, 67, 10, 0.35);
-}
