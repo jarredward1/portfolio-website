@@ -284,7 +284,7 @@
   line-height: 1;
   text-transform: uppercase;
   color: transparent;
-  -webkit-text-stroke: 1px var(--amber-hi);
+  -webkit-text-stroke: 0.5px var(--amber-hi);
   pointer-events: none;
   user-select: none;
 }
