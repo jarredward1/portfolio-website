@@ -1,6 +1,6 @@
 # Jarred Ward · Portfolio
 
-**Live site:** jarredward.tech
+**Live site:** www.jarredward.tech
 
 My personal portfolio site, built to showcase my background and current work in vulnerability management and governance, risk, and compliance (GRC).
 
