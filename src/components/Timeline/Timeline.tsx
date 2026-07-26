@@ -210,7 +210,7 @@ export default function Timeline() {
           kicker="About Me"
           title="One standard, two environments"
           titleId="timeline-title"
-          sub="The discipline I developed in corrections now guides how I assess risk, strengthen controls, and support enterprise security."
+          sub="The discipline I developed in corrections now shapes how I assess risk, strengthen controls, support vulnerability remediation, and prepare organizations for compliance."
         />
 
         <div className={s.body} ref={bodyRef}>
