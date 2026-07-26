@@ -51,7 +51,7 @@ export const milestones: Milestone[] = [
     id: 'pivot',
     era: 'pivot',
     dateLabel: 'The pivot',
-    title: 'B.S. Cybersecurity · 4.0 GPA',
+    title: 'B.S. in Cybersecurity · 4.0 GPA',
     org: 'Full Sail University',
     meta: 'Preceded by an A.S. in Information Technology',
     ghost: '4.0',
@@ -84,7 +84,7 @@ export const milestones: Milestone[] = [
     id: 'next',
     era: 'next',
     dateLabel: 'Next',
-    title: 'What comes next',
+    title: 'What Comes Next',
     ghost: 'Now',
     story:
       "Today, I am continuing to build my experience in governance, risk, and compliance while preparing for the CISSP. I want to help organizations translate regulations and security frameworks into practical policies, effective controls, measurable risk decisions, and audit-ready evidence. Over the long term, I plan to specialize in AI governance and help organizations adopt artificial intelligence responsibly while managing security, privacy, ethical, and regulatory risk. My twelve years in corrections gave me the foundation for this work, and everything I am building now continues to expand on it.",
