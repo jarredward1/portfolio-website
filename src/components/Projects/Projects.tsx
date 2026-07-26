@@ -41,7 +41,7 @@ export default function Projects() {
           kicker="Selected work"
           title="Projects, pinned on GitHub"
           titleId="projects-title"
-          sub="Documented GRC and vulnerability-management projects. This list mirrors the repositories pinned on GitHub and refreshes on every deploy."
+          sub="These projects demonstrate my experience in vulnerability management, remediation, governance, risk, and compliance through practical documentation, technical evidence, and measurable outcomes."
         />
 
         <ul className={s.grid}>
