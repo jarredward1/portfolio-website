@@ -51,7 +51,7 @@ export const milestones: Milestone[] = [
     id: 'pivot',
     era: 'pivot',
     dateLabel: 'The pivot',
-    title: 'B.S. Cybersecurity, 4.0 GPA',
+    title: 'B.S. Cybersecurity · 4.0 GPA',
     org: 'Full Sail University',
     meta: 'Preceded by an A.S. in Information Technology',
     ghost: '4.0',
