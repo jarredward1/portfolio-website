@@ -7,5 +7,5 @@ export const site = {
   githubUser: 'jarredward1',
   location: 'Atlanta, GA',
   resumePath: '/resume/Jarred-Ward-Resume.pdf',
-  hook: "With a bachelor's degree in Cybersecurity, I close vulnerability gaps and build GRC programs aligned with NIST SP 800-53, PCI DSS, and ISO 27001. Twelve years in corrections taught me the value of policies, standards, and procedures. I now bring that same discipline to governance, risk, and compliance.",
+  hook: "With a B.S. in Cybersecurity, I identify vulnerability gaps, prioritize remediation, and develop GRC programs aligned with NIST SP 800-53, PCI DSS, and ISO 27001. Twelve years in corrections taught me that effective security depends on clear policies, consistent procedures, and accountability. I now apply that same discipline to vulnerability management, governance, risk, and compliance.",
 } as const
