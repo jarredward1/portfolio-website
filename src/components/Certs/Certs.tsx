@@ -13,7 +13,7 @@ export default function Certifications() {
           kicker="Credentials"
           title="Certifications"
           titleId="certs-title"
-          sub="Formal validation alongside the hands-on work, anchored by a B.S. in Cybersecurity (4.0 GPA) from Full Sail University."
+          sub="These certifications validate the knowledge behind my hands-on cybersecurity work and support my continued development."
         />
 
         <ul className={s.ledger}>
