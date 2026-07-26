@@ -39,7 +39,7 @@ export default function Projects() {
       <div className="container">
         <SectionHeader
           kicker="Selected work"
-          title="Projects, pinned on GitHub"
+          title="Projects Pinned on GitHub"
           titleId="projects-title"
           sub="These projects demonstrate my experience in vulnerability management, remediation, governance, risk, and compliance through practical documentation, technical evidence, and measurable outcomes."
         />
