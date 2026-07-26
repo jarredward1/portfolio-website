@@ -23,7 +23,7 @@ export const milestones: Milestone[] = [
     meta: 'Baltimore, MD',
     ghost: '2013',
     story:
-      "I started at the Maryland Department of Public Safety and Correctional Services (DPSCS) in February 2013, working in the section of the prison that housed 120 of Baltimore's most hardened criminals. The job came down to reading a room before it became a problem: spotting the small signs of risk before they turned into something worse, and responding in real time when they did. I learned early to enforce access control without exception and to document every incident cleanly enough to survive an audit or a court case. That habit of noticing risk and maintaining thorough documentation never left me.",
+      "I began my career with the Maryland Department of Public Safety and Correctional Services (DPSCS) in February 2013, working in a housing unit with approximately 120 incarcerated individuals. The environment required me to remain alert, recognize subtle warning signs, and assess situations before they escalated. I learned that access control procedures were only effective when they were enforced consistently and supported by clear documentation. Those responsibilities established the foundation for how I approach risk, controls, and accountability today.",
   },
   {
     id: 'tac-team-2015',
@@ -34,7 +34,7 @@ export const milestones: Milestone[] = [
     meta: 'Baltimore, MD',
     ghost: '2015',
     story:
-      "By November 2015 I'd been selected for the tactical response team, chosen for my professionalism and how I held up under pressure. The role meant instead of just handling my section, I was responsible for running into the highest-risk incidents everywhere in the entire facility that housed over 1,200 inmates, and making fast, controlled decisions when there was no time to second-guess them. Following policies, standards, and procedures was a requirement that often saved my job, or even my life, and keeping excellent documentation was a must. It sharpened something I'd keep relying on for the rest of my career: staying calm enough in the worst moments to make the right call instead of just a fast one.",
+      "By November 2015, I had been selected for the tactical response team based on my professionalism, judgment, and ability to remain composed under pressure. My responsibilities expanded beyond a single housing unit to include the entire facility's highest-risk incidents, where I coordinated with personnel across an institution housing more than 1,200 individuals. Strict adherence to policies, standards, and procedures was essential to protecting staff, incarcerated individuals, and the integrity of each response. This experience reinforced the importance of staying calm enough in the most difficult moments to make the right decision, rather than simply the fastest one.",
   },
   {
     id: 'tac-cmd-2017',
@@ -45,7 +45,7 @@ export const milestones: Milestone[] = [
     meta: 'Baltimore, MD',
     ghost: '2017',
     story:
-      "Over the years, I was trusted by my peers and stakeholders to be a reliable and professional leader. I was promoted to a leadership role as the commander of the tactical team in May 2017, and I stayed there for eight years, directing escalation and resource decisions in real time during the facility's most volatile incidents. The work that meant the most to me wasn't the emergencies themselves, it was the program I built to prevent them and keep people safe: a violence-reduction effort that cut physical assaults 35% year over year. I wrote the emergency response plans and trained the officers who'd carry them out, because I'd rather build a system that stops or even prevents the crisis than just be good at reacting to one.",
+      "I was promoted to Tactical Commander in May 2017, a position I held for eight years. I led the tactical team through the facility's most volatile incidents while directing escalations, allocating resources, coordinating personnel, and ensuring each response remained controlled and defensible. I also developed a violence-reduction program that contributed to a 35 percent year-over-year decrease in physical assaults, wrote emergency response plans, and trained officers to carry them out effectively. That experience taught me that strong security depends on both effective response and deliberate prevention.",
   },
   {
     id: 'pivot',
@@ -56,7 +56,7 @@ export const milestones: Milestone[] = [
     meta: 'Preceded by an A.S. in Information Technology',
     ghost: '4.0',
     story:
-      "During my tenure at DPSCSC, I was always the person that coworkers and stakeholders came to when they needed IT help, whether it was computer troubleshooting, configuring CCTV workstations, or reviewing security camera footage. I decided to follow my passions and go back to school, earning an A.S. in Information Technology and then a B.S. in Cybersecurity with a 4.0 GPA. I also obtained certifications alongside it: Security+, SC-900, and ISO 27001 Lead Auditor. None of it felt like starting over, instead, it just felt like a natural transition. It was the same discipline of risk, controls, and incident response I'd spent over a decade practicing, just on a different terrain.",
+      "Throughout my time at DPSCS, coworkers and supervisors often turned to me for technical support, including troubleshooting computers, configuring CCTV workstations, and reviewing security camera footage. Over time, that interest developed into a deliberate transition into cybersecurity. I earned an A.S. in Information Technology and a B.S. in Cybersecurity with a 4.0 GPA, while also completing several industry certifications. The transition did not feel like starting over because I was applying the same discipline I had developed around risk, controls, documentation, accountability, and incident response to a new environment.",
   },
   {
     id: 'logn-sa-2025',
@@ -67,7 +67,7 @@ export const milestones: Milestone[] = [
     meta: 'Microsoft Defender · Sentinel · KQL',
     ghost: '2025',
     story:
-      "I landed my first cybersecurity role at LOG(N) Pacific in May 2025 as a Security Analyst, hunting threats through EDR and learning to recognize indicators of compromise, brute-force attempts, data exfiltration, and ransomware: the digital version of the risk signs I'd spent years reading in person. I built custom detection rules in Microsoft Defender for Endpoint to automate isolation and investigation, went after the brute-force problem directly with inbound NSG and firewall rules until those incidents dropped to zero, and built out Microsoft Sentinel dashboards fed by threat intelligence.",
+      "In May 2025, I entered the cybersecurity field professionally as a Security Analyst at LOG(N) Pacific. Using Microsoft Defender for Endpoint, Microsoft Sentinel, and KQL, I investigated endpoint and identity activity for signs of brute-force attacks, data exfiltration, ransomware, and other malicious behavior. I created custom detection rules, implemented inbound NSG and firewall controls that reduced observed brute-force incidents to zero, and built Sentinel dashboards enriched with threat intelligence. This role allowed me to translate my operational security experience into measurable detection, response, and hardening outcomes.",
   },
   {
     id: 'logn-vma-2026',
@@ -78,7 +78,7 @@ export const milestones: Milestone[] = [
     meta: 'Tenable · Azure environment',
     ghost: '2026',
     story:
-      "In January 2026 I transitioned into vulnerability management, which is where the prevention instinct from my corrections career finally had a direct outlet. I run authenticated Tenable scans across Windows and Linux environments, prioritize what I find by CVSS severity and actual business impact rather than just the number, and automate remediation and DISA STIG hardening with PowerShell to close configuration gaps before they get exploited. Running that scan, remediate, and verify cycle against those environments cut vulnerabilities 100% at critical, 89% at high, and 83% at medium. It's the same job I've always done: find the gap before it becomes an incident.",
+      "I transitioned into vulnerability management in January 2026, where my prevention-focused mindset found its clearest technical application. I conduct authenticated Tenable scans across Windows and Linux environments, prioritize findings based on severity and business impact, and use PowerShell to support remediation and DISA STIG hardening. Through repeated scan, remediate, and verify cycles, I reduced critical vulnerabilities by 100 percent, high vulnerabilities by 89 percent, and medium vulnerabilities by 83 percent across the assessed server environment. Although the tools are different, the purpose remains the same: identify and close the gap before it becomes an incident.",
   },
   {
     id: 'next',
@@ -87,6 +87,6 @@ export const milestones: Milestone[] = [
     title: 'What comes next',
     ghost: 'Now',
     story:
-      "Today, I am building toward a career in GRC while preparing for the CISSP. I want to help organizations translate regulations and security frameworks into practical policies, effective controls, measurable risk decisions, and audit-ready evidence. In the long term, my goal is to specialize in AI governance, helping organizations adopt AI responsibly while managing security, privacy, ethical, and regulatory risks. The technology may continue to evolve, but my purpose remains the same: strengthen accountability, reduce uncertainty, and protect the people who depend on these systems. Twelve years in corrections taught me the foundations of this discipline. I'm still building on it.",
+      "Today, I am continuing to build my experience in governance, risk, and compliance while preparing for the CISSP. I want to help organizations translate regulations and security frameworks into practical policies, effective controls, measurable risk decisions, and audit-ready evidence. Over the long term, I plan to specialize in AI governance and help organizations adopt artificial intelligence responsibly while managing security, privacy, ethical, and regulatory risk. My twelve years in corrections gave me the foundation for this work, and everything I am building now continues to expand on it.",
   },
 ]
