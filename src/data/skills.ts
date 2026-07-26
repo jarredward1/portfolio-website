@@ -12,11 +12,11 @@ export interface SkillGroup {
 export const skillGroups: SkillGroup[] = [
   {
     label: 'Vulnerability Management',
-    skills: ['Tenable.io', 'CVSS', 'DISA STIG'],
+    skills: ['Tenable', 'CVSS', 'DISA STIG'],
   },
   {
-    label: 'Frameworks & Standards',
-    skills: ['NIST CSF', 'NIST SP 800-37 RMF', 'NIST SP 800-53', 'PCI DSS', 'ISO 27001', 'SAQ-D'],
+    label: 'Frameworks, Standards & Assessments',
+    skills: ['NIST CSF', 'NIST SP 800-37 RMF', 'NIST SP 800-53', 'PCI DSS', 'ISO 27001', 'SAQ D'],
   },
   {
     label: 'GRC',
