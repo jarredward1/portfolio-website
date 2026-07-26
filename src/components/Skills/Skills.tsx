@@ -11,7 +11,7 @@ export default function Skills() {
           kicker="Capabilities"
           title="Skills"
           titleId="skills-title"
-          sub="The frameworks, platforms, and practice areas behind the vulnerability-management and GRC work above, grouped the way they show up in a scan cycle or a compliance audit."
+          sub="These frameworks, platforms, and practice areas reflect the technical, analytical, and documentation skills I apply across vulnerability remediation, risk management, security governance, and compliance."
         />
 
         <div className={s.groups}>
