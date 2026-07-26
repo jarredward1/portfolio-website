@@ -56,7 +56,7 @@ export const milestones: Milestone[] = [
     meta: 'Preceded by an A.S. in Information Technology',
     ghost: '4.0',
     story:
-      "Throughout my time at DPSCS, coworkers and supervisors often turned to me for technical support, including troubleshooting computers, configuring CCTV workstations, and reviewing security camera footage. Over time, that interest developed into a deliberate transition into cybersecurity. I earned an A.S. in Information Technology and a B.S. in Cybersecurity with a 4.0 GPA, while also completing several industry certifications. The transition did not feel like starting over because I was applying the same discipline I had developed around risk, controls, documentation, accountability, and incident response to a new environment.",
+      "Throughout my time at DPSCS, coworkers and supervisors often turned to me for technical support, including troubleshooting computers, configuring CCTV workstations, and reviewing security camera footage. Over time, that interest developed into a deliberate transition into cybersecurity. I earned an A.S. in Information Technology and a B.S. in Cybersecurity with a 4.0 GPA while also completing several industry certifications. The transition did not feel like starting over because I was applying the same discipline I had developed around risk, controls, documentation, accountability, and incident response to a new environment.",
   },
   {
     id: 'logn-sa-2025',
