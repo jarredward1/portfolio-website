@@ -102,7 +102,7 @@ function ContactForm() {
         <CheckIcon size={22} className={s.successIcon} />
         <div>
           <p className={s.successText}>
-            Message sent — thanks for reaching out. I'll reply to your email directly.
+            Message sent. Thanks for reaching out. I'll reply to your email directly.
           </p>
           <button type="button" className={s.resetLink} onClick={() => setStatus('idle')}>
             Send another message
