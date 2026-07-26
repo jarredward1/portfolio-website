@@ -34,7 +34,7 @@ export const milestones: Milestone[] = [
     meta: 'Baltimore, MD',
     ghost: '2015',
     story:
-      "By November 2015, I had been selected for the tactical response team based on my professionalism, judgment, and ability to remain composed under pressure. My responsibilities expanded beyond a single housing unit to include the entire facility's highest-risk incidents, where I coordinated with personnel across an institution housing more than 1,200 individuals. Strict adherence to policies, standards, and procedures was essential to protecting staff, incarcerated individuals, and the integrity of each response. This experience reinforced the importance of staying calm enough in the most difficult moments to make the right decision, rather than simply the fastest one.",
+      "By November 2015, I had been selected for the tactical response team based on my professionalism, judgment, and ability to remain composed under pressure. My responsibilities expanded beyond a single housing unit to include the highest-risk incidents throughout the facility, where I coordinated with personnel across an institution housing more than 1,200 individuals. Strict adherence to policies, standards, and procedures was essential to protecting staff, incarcerated individuals, and the integrity of each response. This experience reinforced the importance of staying calm enough in the most difficult moments to make the right decision, rather than simply the fastest one.",
   },
   {
     id: 'tac-cmd-2017',
