@@ -7,7 +7,7 @@ export interface Cert {
 export const certs: Cert[] = [
   { issuer: 'CompTIA', name: 'Security+', status: 'active' },
   { issuer: 'Google', name: 'Cybersecurity Professional Certificate', status: 'active' },
-  { issuer: 'Microsoft', name: 'SC-900 · Security, Compliance & Identity', status: 'active' },
+  { issuer: 'Microsoft', name: 'SC-900 · Security, Compliance & Identity Fundamentals', status: 'active' },
   { issuer: 'ISO/IEC', name: '27001 Lead Auditor', status: 'active' },
   { issuer: 'ISC2', name: 'CISSP', status: 'in-progress' },
 ]
